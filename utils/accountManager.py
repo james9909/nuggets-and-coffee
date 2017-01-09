@@ -5,7 +5,7 @@ def authenticate(username,password):
 
     f="database.db"
     db = sqlite3.connect(f) #open if f exists, otherwise create
-    c = db.cursor()  #facilitate db ops  <-- I don't really know what that means but ok
+    c = db.cursor()  #facilitate db ops 
     worked = False
     message = ""
     passHash = sha1(password).hexdigest()#hash it
@@ -29,7 +29,7 @@ def authenticate(username,password):
 def register(username,password,pwd):    #user-username, password-password, pwd-retype
     f="database.db"
     db = sqlite3.connect(f) #open if f exists, otherwise create
-    c = db.cursor()  #facilitate db ops  <-- I don't really know what that means but ok
+    c = db.cursor()  #facilitate db ops
 
     worked = False
     message = ""
