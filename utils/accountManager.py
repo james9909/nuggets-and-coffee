@@ -56,3 +56,14 @@ def register(username,password,pwd):    #user-username, password-password, pwd-r
     db.close()  #close database
     return worked, message
 
+def updateInfo(username, **kwargs):
+    f="database.db"
+    db = sqlite3.connect(f) #open if f exists, otherwise create
+    c = db.cursor()  #facilitate db ops
+
+    q = "UPDATE users SET ?=? WHERE username==?"
+
+    for k,v in kwargs.items():
+        c.execute(q, (k, v, username,))
+
+    return "updated"
