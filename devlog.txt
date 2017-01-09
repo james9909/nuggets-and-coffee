@@ -1,2 +1,11 @@
 jamesW -- 2017-01-06 6:38
 Added the design document and updated the README with a short description of the project
+
+jiaqiG -- 2017-01-09 13:39
+Added some basic html templates
+
+jordanY -- 2017-01-09 13:57
+Added some functions for registering, authenticating, and updating users
+
+jiaqiG -- 2017-01-09 14:05
+Created a main home page
