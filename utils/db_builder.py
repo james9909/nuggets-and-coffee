@@ -7,8 +7,8 @@ def create_tables():
     c = db.cursor()
 
     c.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT, password TEXT, type TEXT, location INTEGER)")
-    c.execute("CREATE TABLE IF NOT EXISTS posts (id INTEGER PRIMARY KEY, title TEXT, userid INTEGER, timestamp INTEGER, content TEXT)")
-    c.execute("CREATE TABLE IF NOT EXISTS replies (id INTEGER PRIMARY KEY, postid INTEGER, userid INTEGER, timestamp INTEGER, content TEXT)")
+    c.execute("CREATE TABLE IF NOT EXISTS posts (username TEXT, postid INTEGER, title TEXT, content TEXT, timestamp INTEGER)")
+    c.execute("CREATE TABLE IF NOT EXISTS replies (username TEXT, postid INTEGER, content TEXT, timestamp INTEGER)")
 
     db.commit()
     db.close()
