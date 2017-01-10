@@ -9,3 +9,8 @@ Added some functions for registering, authenticating, and updating users
 
 jiaqiG -- 2017-01-09 14:05
 Created a main home page
+
+sharonL -- 2017-01-10 12:58
+Added routes for the main page and started fxns.py for backend functions
+Edited view for main base.html page
+
