@@ -66,4 +66,22 @@ def updateInfo(username, **kwargs):
     for k,v in kwargs.items():
         c.execute(q, (k, v, username,))
 
+    db.commit()
+    db.close()
     return "updated"
+
+def getInfo(username):
+    f = "database.db"
+    db = sqlite3.connect(f)
+    c = db.cursor()
+
+    q = "SELECT * FROM users WHERE username==?"
+
+    c.execute(q, (username,))
+
+    result = c.fetchone()
+
+    db.commit()
+    db.close()
+
+    return result
