@@ -25,3 +25,40 @@ def makeReply(username, postid, content):
 
     db.commit()
     db.close()
+
+
+def getReplies(postid):
+    f = "database.db"
+    db = sqlite3.connect(f)
+    c = db.cursor()
+
+    query = "SELECT * FROM replies WHERE postid==?"
+
+    c.execute(query, (postid,))
+
+    replies = c.fetchall()
+
+    db.commit()
+    db.close()
+
+    return replies
+
+def getPosts(**kwargs):
+    f = "database.db"
+    db = sqlite3.connect(f)
+    c = db.cursor()
+
+    if 'username' in kwargs:
+        query = "SELECT * FROM replies WHERE username==?"
+        c.execute(query, (username,))
+    else:
+        query = "SELECT * FROM replies"
+        c.execute(query)
+    
+
+    posts = c.fetchall()
+
+    db.commit()
+    db.close()
+
+    return posts
