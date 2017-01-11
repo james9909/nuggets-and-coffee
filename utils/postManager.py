@@ -1,4 +1,5 @@
 import sqlite3
+import datetime
 
 def createPost(username, title, content):
     f = "database.db"
@@ -10,8 +11,10 @@ def createPost(username, title, content):
     timestamp = int(datetime.datetime.now().strftime("%s"))
     c.execute(query, (username, title, content, timestamp,))
 
+  
     db.commit()
     db.close()
+    return "created"
 
 def makeReply(username, postid, content):
     f = "database.db"
@@ -49,10 +52,10 @@ def getPosts(**kwargs):
     c = db.cursor()
 
     if 'username' in kwargs:
-        query = "SELECT * FROM replies WHERE username==?"
+        query = "SELECT * FROM posts WHERE username==?"
         c.execute(query, (username,))
     else:
-        query = "SELECT * FROM replies"
+        query = "SELECT * FROM posts"
         c.execute(query)
     
 
