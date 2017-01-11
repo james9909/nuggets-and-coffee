@@ -14,3 +14,8 @@ sharonL -- 2017-01-10 12:58
 Added routes for the main page and started fxns.py for backend functions
 Edited view for main base.html page
 
+jordanY -- 2017-01-10 13:58
+Added functions for making posts and replies
+
+jiaqiG -- 2017-01-10 14:05
+Added page for locating chicken nuggets
