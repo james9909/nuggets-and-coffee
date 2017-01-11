@@ -41,8 +41,8 @@ def login():
      #   return redirect(url_for('index'))
     return render_template('login.html', action='login')
 
-@app.route("/login")
-def login():
+@app.route("/register")
+def register():
     return render_template('login.html', action='register')
 
 if __name__ == "__main__":
