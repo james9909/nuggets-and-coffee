@@ -1,16 +1,26 @@
 {% extends "base.html" %}
 
 {% block head %}
-<title>Login</title>
+{% if action=="login" %}<title>Login</title>{% endif %}
+{% if action=="register" %}<title>Register</title>{% endif %}
 {% endblock %}
 
 {% block navbar %}
-<li><a href = "/register"> Register </a></li>
+{% if action=="login" %}<li><a href = "/register"> Register </a></li>{% endif %}
+{% if action=="register" %}<li><a href = "/login"> Login </a></li>{% endif %}
+
 {% endblock %}
 
 {% block body %}
+{% if action=="login" %}
 <h1>Log in here</h1><br>
 <form method="POST" action="/login">
+{% endif %}
+
+{% if action=="register" %}
+<h1>Register for an account</h1><br>
+<form method="POST" action="/register">
+{% endif %}
     <div class="row">
         <div class="col-md-6">
             <p>Username: <input class="form-control" type="text" name="username" placeholder="Username" required></p>
@@ -18,10 +28,25 @@
     </div>
     <div class="row">
         <div class="col-md-6">
-            <p>Password: <input class="form-control" type="password" name="pass" placeholder="Password" required></p>
+            <p>Password: <input class="form-control" type="password" name="password" placeholder="Password" required></p>
         </div>
     </div>
+    {% if action=="register" %}
+        <div class="row">
+        <div class="col-md-6">
+            <p>Confirm Password: <input class="form-control" type="password" name="passconfirm" placeholder="Password" required></p>
+        </div>
+    </div>
+    {% endif %}
     <br>
-<input class="btn btn-primary" type="submit" value="Login">
+    {% if action=="login" %}<input class="btn btn-primary" type="submit" value="Login">{% endif %}
+    {% if action=="register" %}<input class="btn btn-primary" type="submit" value="Register">{% endif %}
 </form>
+
+<script>
+$(document).ready(function(){    $('[data-toggle="tooltip"]').tooltip();
+    container:'body'
+});
+</script>
+
 {% endblock %}
