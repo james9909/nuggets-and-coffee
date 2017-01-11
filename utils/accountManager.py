@@ -1,4 +1,5 @@
 import sqlite3
+from hashlib import sha1
 
 
 def authenticate(username,password):
@@ -50,7 +51,7 @@ def register(username,password,pwd):    #user-username, password-password, pwd-r
         c.execute(insertUser, (username, passHash,))
 
         worked = True
-        message = "user %s registered!" % (user)
+        message = "user %s registered!" % (username)
 
     db.commit() #save changes
     db.close()  #close database
@@ -61,10 +62,9 @@ def updateInfo(username, **kwargs):
     db = sqlite3.connect(f) #open if f exists, otherwise create
     c = db.cursor()  #facilitate db ops
 
-    q = "UPDATE users SET ?=? WHERE username==?"
-
     for k,v in kwargs.items():
-        c.execute(q, (k, v, username,))
+        q = "UPDATE users SET %s=? WHERE username==?" % k
+        c.execute(q, (v, username,))
 
     db.commit()
     db.close()
