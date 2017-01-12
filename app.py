@@ -76,6 +76,10 @@ def create_account():
 
     return render_template('login.html', action='register', logged_status="false")
 
+@app.route("/favorites")
+def fav_page():
+    return render_template('mainNuggets.html', logged_status="true")
+
 if __name__ == "__main__":
     # Generate and store secret key if it doesn't exist
     with open(".secret_key", "a+b") as f:
