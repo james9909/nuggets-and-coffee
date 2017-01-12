@@ -9,7 +9,7 @@
             </div>
             <div id="main-navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                {% if username %}
+                {% if logged_status=="true" %}
                     <li><a href="/favorites">Favorites</a></li>
                     <li><a href="/logout">Logout</a></li>
                 {% else %}

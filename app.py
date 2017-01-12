@@ -1,9 +1,9 @@
-import hashlib, os, json, random
+import hashlib, os, json, random, utils.accountManager
 import sqlite3
 from flask import Flask, render_template, session, request, redirect, url_for
 import urllib, math, sys
 from itertools import count, groupby
-#import foursquare
+import foursquare
 
 app = Flask(__name__)
 
@@ -22,28 +22,59 @@ def index():
     #print(Lnuggets[:10])
     if (secret in session):
         name = session[secret]
-        return render_template('index.html')
+        return render_template('mainCoffee.html')
     return render_template('base.html')
 
-@app.route("/login")
-def login():
-    #given_user = request.form["username"]
-    #given_pass = request.form["password"]
+@app.route("/login", methods=['GET', 'POST'])
+def log_in():
+    if request.method == "POST":
+        given_user = request.form["username"]
+        given_pass = request.form["password"]
+        
+        hashPassObj = hashlib.sha1()
+        hashPassObj.update(given_pass)
+        hashed_pass = hashPassObj.hexdigest()
 
-    #hashPassObj = hashlib.sha1()
-    #hashPassObj.update(given_pass)
-    #hashed_pass = hashPassObj.hexdigest()
+        are_u_in = utils.accountManager.authenticate(given_user, hashed_pass)
 
-    #are_u_in = utils.auth.login(given_user, hashed_pass)
+        print(are_u_in)
 
-    #if(are_u_in == True):
-     #   session[secret]=given_user
-     #   return redirect(url_for('index'))
-    return render_template('login.html', action='login')
+        if(are_u_in[0] == True):
+            session[secret]=given_user
+            return render_template('mainCoffee.html', logged_status="true")
 
-@app.route("/register")
-def register():
-    return render_template('login.html', action='register')
+    return render_template('login.html', action='login', logged_status="false")
+
+@app.route("/logout")
+def log_em_out():
+    session
+    session.pop(secret)
+    return redirect(url_for("index")) 
+
+@app.route("/register", methods=['GET', 'POST'])
+def create_account():
+    if request.method == "POST":
+        wanted_user = request.form['username']
+        wanted_pass1 = request.form["password"]
+        wanted_pass2 = request.form["passconfirm"]
+
+        hashPassObj1 = hashlib.sha1()
+        hashPassObj1.update(wanted_pass1)
+        hashed_pass1 = hashPassObj1.hexdigest()
+        
+        hashPassObj2 = hashlib.sha1()
+        hashPassObj2.update(wanted_pass2)
+        hashed_pass2 = hashPassObj2.hexdigest()
+
+        is_user_now = utils.accountManager.register(wanted_user, hashed_pass1, hashed_pass2)
+
+        print(is_user_now)
+
+        if(is_user_now == True):
+            session[secret] = wanted_user
+            return redirect(url_for("index")) #redirect(url_for("log_em_in"))
+
+    return render_template('login.html', action='register', logged_status="false")
 
 if __name__ == "__main__":
     # Generate and store secret key if it doesn't exist

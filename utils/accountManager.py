@@ -1,87 +1,100 @@
-import sqlite3
-from hashlib import sha1
+import sqlite3, hashlib
 
 
-def authenticate(username,password):
+def authenticate(g_username,g_password):
+    f = "database.db"
+    db = sqlite3.connect(f, check_same_thread=False)
+    c = db.cursor()
 
-    f="database.db"
-    db = sqlite3.connect(f) #open if f exists, otherwise create
-    c = db.cursor()  #facilitate db ops 
+    c.execute("SELECT password FROM users WHERE username="+"'"+g_username+"'"+";")
+    pass_hold = c.fetchall()
+
+
     worked = False
     message = ""
-    passHash = sha1(password).hexdigest()#hash it
 
-    checkUser = 'SELECT * FROM users WHERE username==?;'
-    c.execute(checkUser, (username,))
-    l = c.fetchone() #listifies the results
-    if l == None:
-        message = "user does not exist"
-    elif l[1] == passHash:
-        worked = True
-        message = "login info correct"
-    else:
-        message = "wrong password"
+#    l = c.fetchone() #listifies the results
 
-    db.commit() #save changes
-    db.close()  #close database
+    #=================CLOSE DB
+    db.commit()
+    db.close()
+    #==============================
+
+    for line in pass_hold:
+        for entry in line:
+            if(g_password == entry):
+                worked = True #session[secret]=g_username
+                message = "login info correct"
+                return worked, message
+            elif (g_password != entry):
+                message = "wrong password"
+                return worked,message
+    message = "user does not exist"
     return worked, message
 
 
-def register(username,password,pwd):    #user-username, password-password, pwd-retype
-    f="database.db"
-    db = sqlite3.connect(f) #open if f exists, otherwise create
-    c = db.cursor()  #facilitate db ops
+def register(g_username,g_password,g_password2):    #user-username, password-password, pwd-retype
+
+    f = "database.db"
+    db = sqlite3.connect(f, check_same_thread=False)
+    c = db.cursor()
 
     worked = False
     message = ""
 
-
     checkUser = 'SELECT * FROM users WHERE username==?;'
-    c.execute(checkUser, (username,))
+    c.execute(checkUser, (g_username,))
+
     l = c.fetchone() #listifies the results
 
     if l != None:
         message = "username taken"
-    elif (password != pwd):
+    elif (g_password != g_password2):
         message = "passwords do not match"
-    elif (password == pwd):
-        passHash = sha1(password).hexdigest()#hash it
+    elif (g_password == g_password2):
         insertUser = 'INSERT INTO users VALUES (NULL,?,?, "","");'
 
-        c.execute(insertUser, (username, passHash,))
+        c.execute(insertUser, (g_username, g_password,))
 
         worked = True
-        message = "user %s registered!" % (username)
+        message = "user %s registered!" % (g_username)
 
+        
     db.commit() #save changes
     db.close()  #close database
+
     return worked, message
 
 def updateInfo(username, **kwargs):
-    f="database.db"
-    db = sqlite3.connect(f) #open if f exists, otherwise create
-    c = db.cursor()  #facilitate db ops
+    f = "database.db"
+    db = sqlite3.connect(f, check_same_thread=False)
+    c = db.cursor()
 
     for k,v in kwargs.items():
         q = "UPDATE users SET %s=? WHERE username==?" % k
         c.execute(q, (v, username,))
+            
+    db.commit() #save changes
+    db.close()  #close database
 
-    db.commit()
-    db.close()
     return "updated"
 
 def getInfo(username):
     f = "database.db"
-    db = sqlite3.connect(f)
+    db = sqlite3.connect(f, check_same_thread=False)
     c = db.cursor()
 
     q = "SELECT * FROM users WHERE username==?"
 
     c.execute(q, (username,))
 
+        
+    db.commit() #save changes
+    db.close()  #close database
+
+
     result = c.fetchone()
 
-    db.commit()
-    db.close()
-
     return result
+
+
