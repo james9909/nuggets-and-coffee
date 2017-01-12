@@ -1,5 +1,8 @@
 import sqlite3
 import foursquare
+import geocoder
+
+#pip install foursquare, geocoder
 
 #db = sqlite3.connect("data/dab.db", check_same_thread=False)
 #d = db.cursor()
@@ -13,22 +16,20 @@ def get_username(userid):
     
     return r[0][0]
 
+def getlatlng(address):
+    g = geocoder.google(address)
+    return g.latlng
 
 def foursq(lat, lng):
     client = foursquare.Foursquare(client_id='IVAQCEMVQ3OR00SDOCEZR4AQ5KEQXXRWKQYRAHLIVM50QWKK', client_secret='JGOJZECQYXHNPVSIH4WK2N5HTNECAJAWFL3RF2E5J03IZRNL')
 
-    Lnuggets = client.venues.search(params={'query': 'chicken nuggets', 'll': lat+','+lng, 'radius': '1000'})
+    Lnuggets = client.venues.search(params={'query': 'chicken nuggets', 'll': str(lat)+','+str(lng), 'radius': '1000'})
     locations = []
-    #print(Lnuggets["venues"])
     for i in Lnuggets["venues"]:
-        locations+=i["name"]
-    test = ""
-    for i in locations:
-        test += i
-    print(test)
-    #print(locations)
+        locations.append(str(i["name"]))
+    return locations
 
-foursq('40.705254579110886','-73.99236843350121')
+print(foursq(getlatlng("stuyvesant high school")[0],getlatlng("stuyvesant high school")[1]))
 
 
 # ========== END ACCESSOR METHODS ================
