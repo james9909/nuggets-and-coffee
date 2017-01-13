@@ -126,5 +126,6 @@ if __name__ == "__main__":
             f.flush()
         app.secret_key = secret_key
 
+    utils.config.load_keys()
     app.debug = True
     app.run()

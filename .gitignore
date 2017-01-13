@@ -5,3 +5,4 @@
 .DS_Store
 *.pyc
 .secret_key
+.keys
