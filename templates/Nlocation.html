@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block head %}
+
 <ul class="nav nav-pills">
   <li role="presentation" class="active"><a href="mainNuggets.html">Nuggets</a></li>
   <li role="presentation"><a href="mainCoffee.html">Coffee</a></li>
@@ -9,7 +10,14 @@
 
 {% block body %}
 
-<iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/search?q=restaurants%20near%20stuyvesant%20high%20school&key=AIzaSyAeMJ7Ql1x_IRE7HvLMGlo-j69L3VrEKkk" allowfullscreen></iframe> 
+<form action="/Nlocation" method="POST">
+  <input class="form-control" type="text" name="address" placeholder="Type in your location">
+  <input class="btn btn-primary" type="submit" value="Search">
+</form>
+
+{% if address %}
+<iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/search?q=restaurants%20near%20"+{{ address }}+"&key=AIzaSyAeMJ7Ql1x_IRE7HvLMGlo-j69L3VrEKkk" allowfullscreen></iframe> 
+
 
 <!-- foursquare api:
 Client_ID: IVAQCEMVQ3OR00SDOCEZR4AQ5KEQXXRWKQYRAHLIVM50QWKK

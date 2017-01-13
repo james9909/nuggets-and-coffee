@@ -80,6 +80,18 @@ def create_account():
 def fav_page():
     return render_template('mainNuggets.html', logged_status="true")
 
+@app.route("Nlocation", methods=['POST'])
+def Nlocation():
+    address = request.form('address')
+    naddress = ""
+    for i in address:
+        if(i==' '):
+            naddress+="%20"
+        else:
+            naddress+=i
+    print(naddress)
+    return render_template('Nlocation.html', naddress=address)
+
 if __name__ == "__main__":
     # Generate and store secret key if it doesn't exist
     with open(".secret_key", "a+b") as f:

@@ -29,7 +29,7 @@ def foursq(lat, lng):
         locations.append(str(i["name"]))
     return locations
 
-print(foursq(getlatlng("stuyvesant high school")[0],getlatlng("stuyvesant high school")[1]))
+print(foursq(getlatlng("corona queens")[0],getlatlng("corona queens")[1]))
 
 
 # ========== END ACCESSOR METHODS ================
