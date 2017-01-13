@@ -24,10 +24,11 @@ def createPost(username, title, content):
     timestamp = int(datetime.datetime.now().strftime("%s"))
     c.execute(query, (username, title, content, timestamp,))
 
-  
+    postid = c.lastrowid
+    
     db.commit()
     db.close()
-    return "created"
+    return postid
 
 def makeReply(username, postid, content):
     f = "database.db"
