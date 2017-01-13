@@ -1,6 +1,5 @@
 import sqlite3, hashlib
 
-
 def authenticate(g_username,g_password):
     f = "database.db"
     db = sqlite3.connect(f, check_same_thread=False)
@@ -9,29 +8,23 @@ def authenticate(g_username,g_password):
     c.execute("SELECT password FROM users WHERE username="+"'"+g_username+"'"+";")
     pass_hold = c.fetchall()
 
-
     worked = False
     message = ""
 
-#    l = c.fetchone() #listifies the results
-
-    #=================CLOSE DB
     db.commit()
     db.close()
-    #==============================
 
     for line in pass_hold:
         for entry in line:
-            if(g_password == entry):
-                worked = True #session[secret]=g_username
+            if g_password == entry:
+                worked = True
                 message = "login info correct"
                 return worked, message
-            elif (g_password != entry):
+            elif g_password != entry:
                 message = "wrong password"
                 return worked,message
     message = "user does not exist"
     return worked, message
-
 
 def register(g_username,g_password,g_password2):    #user-username, password-password, pwd-retype
 
@@ -49,9 +42,9 @@ def register(g_username,g_password,g_password2):    #user-username, password-pas
 
     if l != None:
         message = "username taken"
-    elif (g_password != g_password2):
+    elif g_password != g_password2:
         message = "passwords do not match"
-    elif (g_password == g_password2):
+    elif g_password == g_password2:
         insertUser = 'INSERT INTO users VALUES (NULL,?,?, "","");'
 
         c.execute(insertUser, (g_username, g_password,))
@@ -59,7 +52,6 @@ def register(g_username,g_password,g_password2):    #user-username, password-pas
         worked = True
         message = "user %s registered!" % (g_username)
 
-        
     db.commit() #save changes
     db.close()  #close database
 
@@ -73,7 +65,7 @@ def updateInfo(username, **kwargs):
     for k,v in kwargs.items():
         q = "UPDATE users SET %s=? WHERE username==?" % k
         c.execute(q, (v, username,))
-            
+
     db.commit() #save changes
     db.close()  #close database
 
@@ -88,13 +80,6 @@ def getInfo(username):
 
     c.execute(q, (username,))
 
-        
-    db.commit() #save changes
-    db.close()  #close database
-
-
     result = c.fetchone()
 
     return result
-
-

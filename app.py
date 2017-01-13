@@ -82,7 +82,7 @@ def create_account():
 def fav_page():
     return render_template('mainNuggets.html', logged_status="true")
 
-@app.route("Nlocation", methods=['POST'])
+@app.route("/Nlocation", methods=['POST'])
 def Nlocation():
     address = request.form('address')
     naddress = ""
