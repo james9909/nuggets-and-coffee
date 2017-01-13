@@ -23,3 +23,16 @@ Added page for locating chicken nuggets
 sharonL -- 2017-01-11 24:00
 Finished login/register pages and routes, as well as logout functions and routes
 Redid accountManager.py in order to conform all methods
+
+jiaqiG -- 2017-01-12 00:36
+Created functions for finding chicken nugget locations given an address
+
+sharonL -- 2017-01-12 13:20
+Added page for favorites
+
+jiaqiG -- 2017-01-13 13:16
+Began connecting the back and front ends for foursquare
+Added javascript markers to Google maps
+
+jamesW -- 2017-01-13 14:19
+Added system for reading keys from a file
