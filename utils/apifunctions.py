@@ -23,13 +23,13 @@ def getlatlng(address):
 def foursq(lat, lng):
     client = foursquare.Foursquare(client_id='IVAQCEMVQ3OR00SDOCEZR4AQ5KEQXXRWKQYRAHLIVM50QWKK', client_secret='JGOJZECQYXHNPVSIH4WK2N5HTNECAJAWFL3RF2E5J03IZRNL')
 
-    Lnuggets = client.venues.search(params={'query': 'chicken nuggets', 'll': str(lat)+','+str(lng), 'radius': '1000'})
+    Lnuggets = client.venues.search(params={'query': 'chicken nuggets', 'll': str(lat)+','+str(lng), 'radius': '1609'})
     locations = []
     for i in Lnuggets["venues"]:
         locations.append(str(i["name"]))
     return locations
 
-print(foursq(getlatlng("corona queens")[0],getlatlng("corona queens")[1]))
+print(foursq(getlatlng("jamica queens")[0],getlatlng("jamica queens")[1]))
 
 
 # ========== END ACCESSOR METHODS ================
