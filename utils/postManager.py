@@ -1,6 +1,19 @@
 import sqlite3
 import datetime
 
+def getPost(postid):
+    f = "database.db"
+    db = sqlie3.connect(f)
+    c = db.cursor()
+
+    query = "SELECT * FROM posts WHERE postid==?"
+    c.execute(query, (postid,))
+    postinfo = c.fetchone()
+
+    db.commit()
+    db.close()
+    return psotinfo
+
 def createPost(username, title, content):
     f = "database.db"
     db = sqlite3.connect(f)
@@ -29,7 +42,18 @@ def makeReply(username, postid, content):
     db.commit()
     db.close()
 
+def checkid(postid):
+    f = "database.db"
+    db = sqlite3.connect(f)
+    c = db.cursor()
 
+    query = "SELECT * FROM posts WHERE postid==?"
+    c.execute(query, (postid,))
+
+    post = c.fetchone()
+
+    return post != None
+    
 def getReplies(postid):
     f = "database.db"
     db = sqlite3.connect(f)

@@ -3,6 +3,7 @@ import sqlite3
 from flask import Flask, render_template, session, request, redirect, url_for
 import urllib, math, sys
 from itertools import count, groupby
+from utils import postManager, accountManager
 import foursquare
 
 app = Flask(__name__)
@@ -91,6 +92,19 @@ def Nlocation():
             naddress+=i
     print(naddress)
     return render_template('Nlocation.html', naddress=address)
+
+@app.route("/forum")
+@app.route("/forum/<postid>") 
+def forum(postid=None):
+    # checks if a valid postid was supplied
+    if not postid or not postManager.checkid(post):
+        posts = postManager.getPosts()
+        return render_template('forum.html', posts=posts)
+
+    postinfo = postManager.getPost(postid)
+    comments = postManager.getReplies(postid)
+    return render_template('post.html', postinfo=postinfo, comments=comments)
+
 
 if __name__ == "__main__":
     # Generate and store secret key if it doesn't exist
