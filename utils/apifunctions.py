@@ -12,10 +12,12 @@ def getlatlng(address):
     g = geocoder.google(address)
     return g.latlng
 
-def foursq(lat, lng):
+def foursq(lat, lng, NC):
     client = foursquare.Foursquare(client_id='IVAQCEMVQ3OR00SDOCEZR4AQ5KEQXXRWKQYRAHLIVM50QWKK', client_secret='JGOJZECQYXHNPVSIH4WK2N5HTNECAJAWFL3RF2E5J03IZRNL')
-
-    Lnuggets = client.venues.search(params={'query': 'chicken nuggets', 'll': str(lat)+','+str(lng), 'radius': '1000'})
+    if NC=="nugget":
+        Lnuggets = client.venues.search(params={'query': 'chicken nuggets', 'll': str(lat)+','+str(lng), 'radius': '1000'})
+    else:
+        Lnuggets = client.venues.search(params={'query': 'coffee', 'll': str(lat)+','+str(lng), 'radius': '1000'})
     locations = {}
     for i in Lnuggets["venues"]:
         coords = []
@@ -24,6 +26,8 @@ def foursq(lat, lng):
         locations[str(i["name"])] = coords
     return locations
 
+#location = "Stuyvesant high school"
+#print(foursq(getlatlng(location)[0], getlatlng(location)[1], "coffee"))
 
 # RECIPES
 

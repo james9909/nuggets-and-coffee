@@ -13,12 +13,6 @@ app = Flask(__name__)
 app.secret_key = os.urandom(32)
 secret = 'secret_cookie_key'
 
-#client = foursquare.Foursquare(client_id='IVAQCEMVQ3OR00SDOCEZR4AQ5KEQXXRWKQYRAHLIVM50QWKK', client_secret='JGOJZECQYXHNPVSIH4WK2N5HTNECAJAWFL3RF2E5J03IZRNL')
-
-#Lnuggets = client.venues.search(params={'query': 'chicken nuggets'})
-#========================================ROUTAGE
-
-#either shows user their home (stories edited by them), or redirect to login
 @app.route("/")
 def index():
     #print(client.user())
@@ -47,8 +41,6 @@ def log_in():
 
         are_u_in = utils.accountManager.authenticate(given_user, hashed_pass)
 
-        print(are_u_in)
-
         if(are_u_in[0] == True):
             session[secret]=given_user
             return render_template('main.html', logged_status="true", type=utils.accountManager.get_type(given_user)[0])
@@ -57,9 +49,6 @@ def log_in():
 
 @app.route("/logout")
 def log_em_out():
-#    session
-    print(session)
-    print(session[secret])
     session.pop(secret)
     return redirect(url_for("index"))
 
@@ -81,13 +70,9 @@ def create_account():
 
         is_user_now = utils.accountManager.register(wanted_user, hashed_pass1, hashed_pass2, type_selected)
 
-        print(is_user_now[1])
-        print(utils.accountManager.get_type(wanted_user)[0])
-
         if(is_user_now[0] == True):
             session[secret] = wanted_user
             return render_template('main.html', logged_status="true", type=utils.accountManager.get_type(wanted_user)[0])
-#            return redirect(url_for("index")) #redirect(url_for("log_em_in"))
 
     return render_template('login.html', action='register', logged_status="false")
 
@@ -115,24 +100,27 @@ def Nlocation():
                 naddress+="%20"
             else:
                 naddress+=i
-        spots = foursq(getlatlng(a)[0],getlatlng(a)[1])
+        spots = foursq(getlatlng(a)[0],getlatlng(a)[1],"nugget")
     #print(spots)
     return render_template('Nlocation.html', name = str(a), naddress=naddress, spots=spots)
 
 @app.route("/Clocation", methods=['GET','POST'])
 def Clocation():
+    naddress = ""
+    spots = {}
     a = ''
     if request.method == 'POST':
         a = request.form['address']
-        naddress = ""
         for i in a:
             if(i==' '):
                 naddress+="%20"
             else:
                 naddress+=i
-    spots = foursq(getlatlng(naddress)[0],getlatlng(naddress)[1])
-    return render_template('Clocation.html', naddress=naddress, spot=spot)
+        spots = foursq(getlatlng(a)[0],getlatlng(a)[1],"coffee")
+ 
+    return render_template('Clocation.html', name = str(a), naddress=naddress, spots=spots)
 
+    
 @app.route("/forum")
 @app.route("/forum/<postid>")
 def forum(postid=None):
