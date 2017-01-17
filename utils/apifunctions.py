@@ -13,13 +13,17 @@ def getlatlng(address):
     return g.latlng
 
 def foursq(lat, lng):
-    client = foursquare.Foursquare(client_id=config.keys["FOURSQUARE_CLIENT_ID"], client_secret=config.keys["FOURSQUARE_CLIENT_SECRET"])
+    client = foursquare.Foursquare(client_id='IVAQCEMVQ3OR00SDOCEZR4AQ5KEQXXRWKQYRAHLIVM50QWKK', client_secret='JGOJZECQYXHNPVSIH4WK2N5HTNECAJAWFL3RF2E5J03IZRNL')
 
-    Lnuggets = client.venues.search(params={'query': 'chicken nuggets', 'll': str(lat)+','+str(lng), 'radius': '1609'})
-    locations = []
+    Lnuggets = client.venues.search(params={'query': 'chicken nuggets', 'll': str(lat)+','+str(lng), 'radius': '1000'})
+    locations = {}
     for i in Lnuggets["venues"]:
-        locations.append(str(i["name"]))
+        coords = []
+        coords.append(str(i["location"]["labeledLatLngs"][0]["lat"]))
+        coords.append(str(i["location"]["labeledLatLngs"][0]["lng"]))
+        locations[str(i["name"])] = coords
     return locations
+
 
 # RECIPES
 
@@ -63,4 +67,4 @@ def get_rank(recipes):
 
 if __name__ == "__main__":
     config.load_keys()
-    #print(foursq(getlatlng("jamica queens")[0],getlatlng("jamica queens")[1]))
+    

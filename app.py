@@ -1,11 +1,12 @@
 import hashlib, os, json, random
-import sqlite3
+import sqlite3, utils
 from flask import Flask, render_template, session, request, redirect, url_for
 import urllib, math, sys
 from itertools import count, groupby
 from utils import postManager, accountManager
+from utils.apifunctions import foursq, getlatlng
 import foursquare
-import utils
+
 
 app = Flask(__name__)
 
@@ -96,6 +97,22 @@ def fav_page():
 
 @app.route("/Nlocation", methods=['GET','POST'])
 def Nlocation():
+    naddress = ""
+    spots = {}
+    a = ''
+    if request.method == 'POST':
+        a = request.form['address']
+        for i in a:
+            if(i==' '):
+                naddress+="%20"
+            else:
+                naddress+=i
+        spots = foursq(getlatlng(a)[0],getlatlng(a)[1])
+    #print(spots)
+    return render_template('Nlocation.html', name = str(a), naddress=naddress, spots=spots)
+
+@app.route("/Clocation", methods=['GET','POST'])
+def Clocation():
     a = ''
     if request.method == 'POST':
         a = request.form['address']
@@ -105,7 +122,8 @@ def Nlocation():
                 naddress+="%20"
             else:
                 naddress+=i
-    return render_template('Nlocation.html', naddress=a)
+    spots = foursq(getlatlng(naddress)[0],getlatlng(naddress)[1])
+    return render_template('Clocation.html', naddress=naddress, spot=spot)
 
 @app.route("/forum")
 @app.route("/forum/<postid>")

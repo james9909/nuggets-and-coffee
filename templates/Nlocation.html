@@ -1,19 +1,6 @@
 {% extends "base.html" %}
 
 {% block head %}
-<script>
-      function initMap() {
-        var uluru = {lat: -25.363, lng: 131.044};
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 4,
-          center: uluru
-        });
-        var marker = new google.maps.Marker({
-          position: uluru,
-          map: map
-        });
-      }
- </script>
 
 <ul class="nav nav-pills">
   <li role="presentation" class="active"><a href="mainNuggets.html">Nuggets</a></li>
@@ -25,13 +12,16 @@
 
 {% if naddress != '' %} <!-- checks if user has searched an address -->
 <form action="/Nlocation" method="POST">
-  <input class="form-control" type="text" name="address" placeholder={{naddress}}>
+  <input class="form-control" type="text" name="address" placeholder={{ name }}>
   <input class="btn btn-primary" type="submit" value="Search">
 </form>
-<script async defer
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUPAj0czfKLMWzZyO0brrORVvi4YH1f30&q&callback=initMap">
-</script>
-<iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/search?q=restaurants%20near%20stuyvesant%20high%20school&key=AIzaSyAeMJ7Ql1x_IRE7HvLMGlo-j69L3VrEKkk" allowfullscreen></iframe> 
+
+{% for spot in spots %}
+<h3>{{ spot }}</h3>
+<br>
+<iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDUPAj0czfKLMWzZyO0brrORVvi4YH1f30&q={{ spots[spot][0] }},{{ spots[spot][1] }}" allowfullscreen></iframe> 
+
+{% endfor %}
 
 {% else %}
 <form action="/Nlocation" method="POST">
