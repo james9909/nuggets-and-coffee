@@ -26,7 +26,7 @@ def authenticate(g_username,g_password):
     message = "user does not exist"
     return worked, message
 
-def register(g_username,g_password,g_password2):    #user-username, password-password, pwd-retype
+def register(g_username,g_password,g_password2, g_type):    #user-username, password-password, pwd-retype
 
     f = "database.db"
     db = sqlite3.connect(f, check_same_thread=False)
@@ -45,10 +45,7 @@ def register(g_username,g_password,g_password2):    #user-username, password-pas
     elif g_password != g_password2:
         message = "passwords do not match"
     elif g_password == g_password2:
-        insertUser = 'INSERT INTO users VALUES (NULL,?,?, "","");'
-
-        c.execute(insertUser, (g_username, g_password,))
-
+        c.execute('INSERT INTO users VALUES (NULL,?,?,?,"");', (g_username, g_password, g_type,))
         worked = True
         message = "user %s registered!" % (g_username)
 
@@ -83,3 +80,18 @@ def getInfo(username):
     result = c.fetchone()
 
     return result
+
+def get_type(username):
+    f = "database.db"
+    db = sqlite3.connect(f, check_same_thread=False)
+    c = db.cursor()
+
+    q = "SELECT type FROM users WHERE username==?"
+
+    c.execute(q, (username,))
+
+    result = c.fetchone()
+
+    return result
+
+#print(get_type("s"))
