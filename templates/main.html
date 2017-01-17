@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block head %}
+<ul class="nav nav-pills">
+{% if type == "nuggets" %}
+  <li role="presentation" class="active"><a href="mainNuggets.html">Nuggets</a></li>
+{% else %}
+  <li role="presentation"><a href="mainNuggets.html">Nuggets</a></li>
+{% endif %}
+
+{% if type=="coffee" %}
+  <li role="presentation" class="active"><a href="mainCoffee.html">Coffee</a></li>
+{% else %}
+  <li role="presentation"><a href="mainCoffee.html">Coffee</a></li>
+{% endif %}
+</ul>
+{% endblock %}
+
+{% block body %}
+
+<a href="Nlocation.html">Find a nugget venue!</a>
+
+{% endblock %}

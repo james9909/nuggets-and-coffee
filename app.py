@@ -24,7 +24,14 @@ def index():
     #print(Lnuggets[:10])
     if (secret in session):
         name = session[secret]
-        return render_template('mainCoffee.html')
+        return render_template('main.html', logged_status="true", type=utils.accountManager.get_type(session[secret])[0])
+#        return render_template('mainCoffee.html')
+    return render_template('base.html')
+
+@app.route("/home")
+def return_home():
+    if (secret in session):
+        return render_template('main.html', logged_status="true", type=utils.accountManager.get_type(session[secret])[0])
     return render_template('base.html')
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -43,13 +50,15 @@ def log_in():
 
         if(are_u_in[0] == True):
             session[secret]=given_user
-            return render_template('mainCoffee.html', logged_status="true")
+            return render_template('main.html', logged_status="true", type=utils.accountManager.get_type(given_user)[0])
 
     return render_template('login.html', action='login', logged_status="false")
 
 @app.route("/logout")
 def log_em_out():
-    session
+#    session
+    print(session)
+    print(session[secret])
     session.pop(secret)
     return redirect(url_for("index"))
 
@@ -59,6 +68,7 @@ def create_account():
         wanted_user = request.form['username']
         wanted_pass1 = request.form["password"]
         wanted_pass2 = request.form["passconfirm"]
+        type_selected = request.form["types"]
 
         hashPassObj1 = hashlib.sha1()
         hashPassObj1.update(wanted_pass1)
@@ -68,13 +78,15 @@ def create_account():
         hashPassObj2.update(wanted_pass2)
         hashed_pass2 = hashPassObj2.hexdigest()
 
-        is_user_now = utils.accountManager.register(wanted_user, hashed_pass1, hashed_pass2)
+        is_user_now = utils.accountManager.register(wanted_user, hashed_pass1, hashed_pass2, type_selected)
 
-        print(is_user_now)
+        print(is_user_now[1])
+        print(utils.accountManager.get_type(wanted_user)[0])
 
-        if(is_user_now == True):
+        if(is_user_now[0] == True):
             session[secret] = wanted_user
-            return redirect(url_for("index")) #redirect(url_for("log_em_in"))
+            return render_template('main.html', logged_status="true", type=utils.accountManager.get_type(wanted_user)[0])
+#            return redirect(url_for("index")) #redirect(url_for("log_em_in"))
 
     return render_template('login.html', action='register', logged_status="false")
 
