@@ -95,6 +95,14 @@ def create_account():
 def fav_page():
     return render_template('mainNuggets.html', logged_status="true")
 
+@app.route("/mainNuggets")
+def mainNuggets():
+    return render_template('mainNuggets.html', logged_status="true")
+
+@app.route("/mainCoffee")
+def mainCoffee():
+    return render_template('mainCoffee.html', logged_status="true")
+
 @app.route("/Nlocation", methods=['GET','POST'])
 def Nlocation():
     naddress = ""
