@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title> Forum </title>
+{% endblock %}
+
+
+{% block body %}
+
+<h1><center> Share Your Opinions on Nuggets and Coffee </center></h1>
+{% for post in posts %}
+Title: {{ post[2] }}  Author: {{ post[0] }}<br>
+{% endblock %}
+
+{% endblock %}

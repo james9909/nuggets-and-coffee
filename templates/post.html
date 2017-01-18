@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title> {{ postinfo[2] }} </title> 
+{% endblock %}
+
+{% block body %}
+Title: {{ postinfo[2] }} <br>
+Author: {{ postinfo[0] }} <br>
+Timestamp: {{ postinfo[4] }} <br>
+Content: <br>
+{{ postinfo[3] }} <br>
+
+{% for comment in comments %}
