@@ -36,3 +36,10 @@ Added javascript markers to Google maps
 
 jamesW -- 2017-01-13 14:19
 Added system for reading keys from a file
+
+sharonL -- 2017-01-16 20:15
+Added routes for coffee/nuggets
+
+jiaqiG -- 2017-01-16 23:37
+Finished nugget location finder
+Finished coffee location finder
