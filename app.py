@@ -125,7 +125,7 @@ def Clocation():
 @app.route("/forum/<postid>")
 def forum(postid=None):
     # checks if a valid postid was supplied
-    if not postid or not postManager.checkid(post):
+    if not postid or not postManager.checkid(postid):
         posts = postManager.getPosts()
         return render_template('forum.html', posts=posts)
 
@@ -138,11 +138,11 @@ def createPost():
     if request.method == "GET":
         return render_template('createPost.html')
     else:
-        username = session["username"]
+        username = session[secret]
         title = request.form["title"]
         content = request.form["content"]
         postid = postManager.createPost(username, title, content)
-    return redirect("/forum/" + postid)
+    return redirect("/forum/" + str(postid))
 
 
 if __name__ == "__main__":
