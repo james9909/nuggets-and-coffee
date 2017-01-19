@@ -11,4 +11,6 @@ Timestamp: {{ postinfo[4] }} <br>
 Content: <br>
 {{ postinfo[3] }} <br>
 
-{% for comment in comments %}
+{% for reply in replies %}
+reply: {{ reply[2] }} <br>
+{% endblock %}

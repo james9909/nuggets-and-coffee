@@ -133,13 +133,15 @@ def forum(postid=None):
     comments = postManager.getReplies(postid)
     return render_template('post.html', postinfo=postinfo, comments=comments)
 
-@app.route("/createPost", methods=["POST"])
+@app.route("/createPost", methods=["GET","POST"])
 def createPost():
-    username = session["username"]
-    title = request.form["title"]
-    content = request.form["content"]
-
-    postid = postManager.createPost(username, title, content)
+    if request.method == "GET":
+        return render_template('createPost.html')
+    else:
+        username = session["username"]
+        title = request.form["title"]
+        content = request.form["content"]
+        postid = postManager.createPost(username, title, content)
     return redirect("/forum/" + postid)
 
 
