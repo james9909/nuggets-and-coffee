@@ -151,7 +151,7 @@ def createPost():
         postid = postManager.createPost(username, title, content)
     return redirect("/forum/" + str(postid))
 
-@app.route("/createPost", methods=["POST"])
+@app.route("/reply", methods=["POST"])
 def reply():
     if 'username' in session:
         username = session['username']
