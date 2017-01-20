@@ -17,16 +17,16 @@ secret = 'secret_cookie_key'
 def index():
     #print(client.user())
     #print(Lnuggets[:10])
-    if (secret in session):
-        name = session[secret]
-        return render_template('main.html', logged_status="true", type=utils.accountManager.get_type(session[secret])[0])
+    if ('username' in session):
+        name = session['username']
+        return render_template('main.html', type=utils.accountManager.get_type(session['username'])[0])
 #        return render_template('mainCoffee.html')
     return render_template('base.html')
 
 @app.route("/home")
 def return_home():
-    if (secret in session):
-        return render_template('main.html', logged_status="true", type=utils.accountManager.get_type(session[secret])[0])
+    if ('username' in session):
+        return render_template('main.html', type=utils.accountManager.get_type(session['username'])[0])
     return render_template('base.html')
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -43,13 +43,13 @@ def log_in():
 
         if(are_u_in[0] == True):
             session[secret]=given_user
-            return render_template('main.html', logged_status="true", type=utils.accountManager.get_type(given_user)[0])
+            return render_template('main.html', type=utils.accountManager.get_type(given_user)[0])
 
-    return render_template('login.html', action='login', logged_status="false")
+    return render_template('login.html', action='login')
 
 @app.route("/logout")
 def log_em_out():
-    session.pop(secret)
+    session.pop('username')
     return redirect(url_for("index"))
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -71,22 +71,22 @@ def create_account():
         is_user_now = utils.accountManager.register(wanted_user, hashed_pass1, hashed_pass2, type_selected)
 
         if(is_user_now[0] == True):
-            session[secret] = wanted_user
-            return render_template('main.html', logged_status="true", type=utils.accountManager.get_type(wanted_user)[0])
+            session['username'] = wanted_user
+            return render_template('main.html', type=utils.accountManager.get_type(wanted_user)[0])
 
-    return render_template('login.html', action='register', logged_status="false")
+    return render_template('login.html', action='register')
 
 @app.route("/favorites")
 def fav_page():
-    return render_template('mainNuggets.html', logged_status="true")
+    return render_template('mainNuggets.html')
 
 @app.route("/mainNuggets")
 def mainNuggets():
-    return render_template('mainNuggets.html', logged_status="true")
+    return render_template('mainNuggets.html')
 
 @app.route("/mainCoffee")
 def mainCoffee():
-    return render_template('mainCoffee.html', logged_status="true")
+    return render_template('mainCoffee.html')
 
 @app.route("/Nlocation", methods=['GET','POST'])
 def Nlocation():
