@@ -16,13 +16,18 @@
   <input class="btn btn-primary" type="submit" value="Search">
 </form>
 
+{% if works %}
 {% for spot in spots %}
 <h3>{{ spot }}</h3>
 <br>
 <iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDUPAj0czfKLMWzZyO0brrORVvi4YH1f30&q={{ spots[spot][0] }},{{ spots[spot][1] }}" allowfullscreen></iframe> 
 
 {% endfor %}
+{% else %}
 
+<p>No results match your query.</p>  
+
+{% endif %}
 {% else %}
 <form action="/Nlocation" method="POST">
   <input class="form-control" type="text" name="address" placeholder="Type in your location">
