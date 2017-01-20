@@ -93,16 +93,23 @@ def Nlocation():
     naddress = ""
     spots = {}
     a = ''
+    name = ''
+    works = True
     if request.method == 'POST':
         a = request.form['address']
         for i in a:
             if(i==' '):
                 naddress+="%20"
+                name+="-"
             else:
                 naddress+=i
-        spots = foursq(getlatlng(a)[0],getlatlng(a)[1],"nugget")
-    #print(spots)
-    return render_template('Nlocation.html', name = str(a), naddress=naddress, spots=spots)
+                name+=i
+        try:
+            spots = foursq(getlatlng(a)[0],getlatlng(a)[1],"nugget")
+        except:
+            works = False
+#print(spots)
+    return render_template('Nlocation.html', name = name, naddress=naddress, spots=spots, works=works)
 
 @app.route("/Clocation", methods=['GET','POST'])
 def Clocation():
