@@ -42,7 +42,7 @@ def log_in():
         are_u_in = utils.accountManager.authenticate(given_user, hashed_pass)
 
         if(are_u_in[0] == True):
-            session[secret]=given_user
+            session['username']=given_user
             return render_template('main.html', type=utils.accountManager.get_type(given_user)[0])
 
     return render_template('login.html', action='login')
