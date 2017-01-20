@@ -151,6 +151,17 @@ def createPost():
         postid = postManager.createPost(username, title, content)
     return redirect("/forum/" + str(postid))
 
+@app.route("/createPost", methods=["POST"])
+def reply():
+    if 'username' in session:
+        username = session['username']
+    else:
+        username = 'anonymous'
+    postid = request.form["postid"]
+    content = request.form["content"]
+    postManager.makeReply(username, postid, content)
+    return redirect("/forum/"+str(postid))
+
 
 if __name__ == "__main__":
     # Generate and store secret key if it doesn't exist
