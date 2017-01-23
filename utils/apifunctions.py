@@ -37,8 +37,8 @@ def foursq(lat, lng, NC):
             coords.append(str(i["contact"]["formattedPhone"]))
         except:
             coords.append("nope")
-        locations[str(i["name"])] = coords
-    #print locations
+        locations[i["name"]] = coords
+    print locations
     return locations
 
 location = "Stuy"

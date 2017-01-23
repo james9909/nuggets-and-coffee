@@ -116,16 +116,23 @@ def Clocation():
     naddress = ""
     spots = {}
     a = ''
+    name = ''
+    works = True
     if request.method == 'POST':
         a = request.form['address']
         for i in a:
             if(i==' '):
                 naddress+="%20"
+                name+="-"
             else:
                 naddress+=i
-        spots = foursq(getlatlng(a)[0],getlatlng(a)[1],"coffee")
- 
-    return render_template('Clocation.html', name = str(a), naddress=naddress, spots=spots)
+                name+=i
+        try:
+            spots = foursq(getlatlng(a)[0],getlatlng(a)[1],"coffee")
+        except:
+            works = False
+#print(spots)
+    return render_template('Clocation.html', name = name, naddress=naddress, spots=spots, works=works)
 
     
 @app.route("/forum")

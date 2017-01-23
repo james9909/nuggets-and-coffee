@@ -9,11 +9,16 @@
 {% endblock %}
 
 {% block body %}
-
+<br>
 {% if naddress != '' %} <!-- checks if user has searched an address -->
+
 <form action="/Nlocation" method="POST">
-  <input class="form-control" type="text" name="address" placeholder={{ name }}>
-  <input class="btn btn-primary" type="submit" value="Search">
+  <div class="input-group">
+    <input class="form-control" type="text" name="address" placeholder={{ name }}>
+    <span class="input-group-btn">
+      <button class="btn btn-primary" type="submit">!!</button>
+      </span>
+  </div>
 </form>
 
 {% if works %}
@@ -27,14 +32,14 @@
   </div>
 
   <div class="col-sm-5">
-    Address: {{ spots[spot][2] }}<br>
+    <b>Address</b>: {{ spots[spot][2] }}<br>
     {% if spots[spot][3] != "nope" %}
-    Website: <a href="{{ spots[spot][3] }}">{{ spots[spot][3] }}</a><br>
+    <b>Website</b>: <a href="{{ spots[spot][3] }}">{{ spots[spot][3] }}</a><br>
     {% endif %}
     {% if spots[spot][4] != "nope" %}
-    Phone: <u>{{ spots[spot][4] }}</u><br>
+    <b>Phone</b>: <u>{{ spots[spot][4] }}</u><br>
     {% endif %}
-    Favorite 
+    <b>Favorite</b>
   </div>
   
 </div>
@@ -48,8 +53,12 @@
 {% endif %}
 {% else %}
 <form action="/Nlocation" method="POST">
-  <input class="form-control" type="text" name="address" placeholder="Type in your location">
-  <input class="btn btn-primary" type="submit" value="Search">
+  <div class="input-group">
+    <input class="form-control" type="text" name="address" placeholder="Type in your location">
+    <span class="input-group-btn">
+      <button class="btn btn-primary" type="submit">!!</button>
+      </span>
+  </div>
 </form>
 
 {% endif %}
