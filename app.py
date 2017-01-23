@@ -144,8 +144,8 @@ def forum(postid=None):
         return render_template('forum.html', posts=posts)
 
     postinfo = postManager.getPost(postid)
-    comments = postManager.getReplies(postid)
-    return render_template('post.html', postinfo=postinfo, comments=comments)
+    replies = postManager.getReplies(postid)
+    return render_template('post.html', postinfo=postinfo, replies=replies)
 
 @app.route("/createPost", methods=["GET","POST"])
 def createPost():
