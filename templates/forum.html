@@ -8,14 +8,20 @@
 {% block body %}
 
 <h1><center> Share Your Opinions on Nuggets and Coffee </center></h1>
+<br>
+<center><a class="btn btn-primary" href="/createPost" role="button">Make a Post</a></center>
+<br>
 {% for post in posts %}
+<div class="well well-sm">
 <a href="/forum/{{ post[1] }}">
-  Title: {{ post[2] }}
+ <strong> {{ post[2] }} </strong>
 </a>  
-Author: {{ post[0] }}<br>
+<span class="text-muted"> by {{ post[0] }} </span> 
+</div>
+
 {% endfor %}
 
-<a class="btn btn-primary" href="/createPost" role="button">Make a Post</a>
+
 {% endblock %}
 
 
