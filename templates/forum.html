@@ -9,7 +9,10 @@
 
 <h1><center> Share Your Opinions on Nuggets and Coffee </center></h1>
 {% for post in posts %}
-Title: {{ post[2] }}  Author: {{ post[0] }}<br>
+<a href="/forum/{{ post[1] }}">
+  Title: {{ post[2] }}
+</a>  
+Author: {{ post[0] }}<br>
 {% endfor %}
 
 <a class="btn btn-primary" href="/createPost" role="button">Make a Post</a>

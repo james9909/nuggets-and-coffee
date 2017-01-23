@@ -144,15 +144,15 @@ def forum(postid=None):
         return render_template('forum.html', posts=posts)
 
     postinfo = postManager.getPost(postid)
-    comments = postManager.getReplies(postid)
-    return render_template('post.html', postinfo=postinfo, comments=comments)
+    replies = postManager.getReplies(postid)
+    return render_template('post.html', postinfo=postinfo, replies=replies)
 
 @app.route("/createPost", methods=["GET","POST"])
 def createPost():
     if request.method == "GET":
         return render_template('createPost.html')
     else:
-        username = session[secret]
+        username = session['username']
         title = request.form["title"]
         content = request.form["content"]
         postid = postManager.createPost(username, title, content)
