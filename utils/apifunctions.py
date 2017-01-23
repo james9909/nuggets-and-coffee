@@ -8,7 +8,7 @@ def get_username(userid):
 
     return r[0][0]
 
-def getlatlng(address):    
+def getlatlng(address):
     g = geocoder.google(address)
     return g.latlng
 
@@ -29,7 +29,7 @@ def foursq(lat, lng, NC):
             address += j + ", "
         #coords.append(i["location"]["formattedAddress"])
         coords.append(address[:-2])
-        try: #because not every location has a number or website avail 
+        try: #because not every location has a number or website avail
             coords.append(str(i["url"]))
         except:
             coords.append("nope")
@@ -40,12 +40,6 @@ def foursq(lat, lng, NC):
         locations[i["name"]] = coords
     print locations
     return locations
-
-location = "Stuy"
-try:
-    foursq(getlatlng(location)[0], getlatlng(location)[1], "coffee")
-except:
-    print("doesn't work")
 
 # RECIPES
 
@@ -89,4 +83,8 @@ def get_rank(recipes):
 
 if __name__ == "__main__":
     config.load_keys()
-    
+    location = "Stuy"
+    try:
+        foursq(getlatlng(location)[0], getlatlng(location)[1], "coffee")
+    except:
+        print("doesn't work")
