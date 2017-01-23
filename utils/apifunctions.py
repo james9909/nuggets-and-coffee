@@ -18,19 +18,34 @@ def foursq(lat, lng, NC):
         L = client.venues.search(params={'query': 'chicken nuggets', 'll': str(lat)+','+str(lng), 'radius': '1000'})
     else:
         L = client.venues.search(params={'query': 'coffee', 'll': str(lat)+','+str(lng), 'radius': '1000'})
+    #print L["venues"][8]["contact"]["formattedPhone"]
     locations = {}
     for i in L["venues"]:
         coords = []
         coords.append(str(i["location"]["labeledLatLngs"][0]["lat"]))
         coords.append(str(i["location"]["labeledLatLngs"][0]["lng"]))
+        address = ""
+        for j in i["location"]["formattedAddress"]:
+            address += j + ", "
+        #coords.append(i["location"]["formattedAddress"])
+        coords.append(address[:-2])
+        try: #because not every location has a number or website avail 
+            coords.append(str(i["url"]))
+        except:
+            coords.append("nope")
+        try:
+            coords.append(str(i["contact"]["formattedPhone"]))
+        except:
+            coords.append("nope")
         locations[str(i["name"])] = coords
+    #print locations
     return locations
 
-#location = "Stuyasfas"
-#try:
-    #print(foursq(getlatlng(location)[0], getlatlng(location)[1], "coffee"))
-#except IndexError:
-    #print("doesn't work")
+location = "Stuy"
+try:
+    foursq(getlatlng(location)[0], getlatlng(location)[1], "coffee")
+except:
+    print("doesn't work")
 
 # RECIPES
 

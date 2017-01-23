@@ -17,15 +17,33 @@
 </form>
 
 {% if works %}
-{% for spot in spots %}
-<h3>{{ spot }}</h3>
-<br>
-<iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDUPAj0czfKLMWzZyO0brrORVvi4YH1f30&q={{ spots[spot][0] }},{{ spots[spot][1] }}" allowfullscreen></iframe> 
+<div class="container">
+  {% for spot in spots %}
+  <div class="row">
+  <h3>{{ spot }}</h3>
+  <br>
+  <div class="col-sm-7">
+  <iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDUPAj0czfKLMWzZyO0brrORVvi4YH1f30&q={{ spots[spot][0] }},{{ spots[spot][1] }}" allowfullscreen></iframe> 
+  </div>
 
-{% endfor %}
+  <div class="col-sm-5">
+    Address: {{ spots[spot][2] }}<br>
+    {% if spots[spot][3] != "nope" %}
+    Website: <a href="{{ spots[spot][3] }}">{{ spots[spot][3] }}</a><br>
+    {% endif %}
+    {% if spots[spot][4] != "nope" %}
+    Phone: {{ spots[spot][4] }}<br>
+    {% endif %}
+    Favorite 
+  </div>
+  
+</div>
+  {% endfor %}
+</div>
+
 {% else %}
-
-<p>No results match your query.</p>  
+<br>
+<div class="alert alert-danger" role="alert">No results match your query</div>
 
 {% endif %}
 {% else %}
