@@ -152,7 +152,7 @@ def createPost():
     if request.method == "GET":
         return render_template('createPost.html')
     else:
-        username = session[secret]
+        username = session['username']
         title = request.form["title"]
         content = request.form["content"]
         postid = postManager.createPost(username, title, content)
