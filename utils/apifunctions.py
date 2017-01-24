@@ -1,19 +1,15 @@
-import sqlite3, foursquare, geocoder
-import config, requests
+import config
 
-def get_username(userid):
-    q = 'SELECT username FROM users WHERE id =\"%s\";' % (userid)
-    d.execute(q)
-    r = d.fetchall()
-
-    return r[0][0]
+import foursquare
+import geocoder
+import requests
 
 def getlatlng(address):
     g = geocoder.google(address)
     return g.latlng
 
 def foursq(lat, lng, NC):
-    client = foursquare.Foursquare(client_id='IVAQCEMVQ3OR00SDOCEZR4AQ5KEQXXRWKQYRAHLIVM50QWKK', client_secret='JGOJZECQYXHNPVSIH4WK2N5HTNECAJAWFL3RF2E5J03IZRNL')
+    client = foursquare.Foursquare(client_id=config.keys["FOURSQUARE_CLIENT_ID"], client_secret=config.keys["FOURSQUARE_CLIENT_SECRET"])
     if NC=="nugget":
         L = client.venues.search(params={'query': 'chicken nuggets', 'll': str(lat)+','+str(lng), 'radius': '1000'})
     else:

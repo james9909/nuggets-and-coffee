@@ -4,8 +4,8 @@ def load_keys():
     global keys
     keys = {}
 
-    if os.path.exists(".keys"):
-        f = open(".keys", "r")
+    if os.path.exists("utils/.keys"):
+        f = open("utils/.keys", "r")
         for line in f:
             if "=" in line:
                 line = line.split("=")
