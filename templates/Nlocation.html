@@ -3,8 +3,8 @@
 {% block head %}
 
 <ul class="nav nav-pills">
-  <li role="presentation" class="active"><a href="/mainNuggets">Nuggets</a></li>
-  <li role="presentation"><a href="/mainCoffee">Coffee</a></li>
+    <li role="presentation" class="active"><a href="/mainNuggets">Nuggets</a></li>
+    <li role="presentation"><a href="/mainCoffee">Coffee</a></li>
 </ul>
 {% endblock %}
 
@@ -13,37 +13,37 @@
 {% if naddress != '' %} <!-- checks if user has searched an address -->
 
 <form action="/Nlocation" method="POST">
-  <div class="input-group">
-    <input class="form-control" type="text" name="address" placeholder={{ name }}>
-    <span class="input-group-btn">
-      <button class="btn btn-primary" type="submit">!!</button>
-      </span>
-  </div>
+    <div class="input-group">
+        <input class="form-control" type="text" name="address" placeholder={{ name }}>
+        <span class="input-group-btn">
+            <button class="btn btn-primary" type="submit">!!</button>
+        </span>
+    </div>
 </form>
 
 {% if works %}
 <div class="container">
-  {% for spot in spots %}
-  <div class="row">
-  <h3>{{ spot }}</h3>
-  <br>
-  <div class="col-sm-7">
-  <iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDUPAj0czfKLMWzZyO0brrORVvi4YH1f30&q={{ spots[spot][0] }},{{ spots[spot][1] }}" allowfullscreen></iframe> 
-  </div>
+    {% for spot in spots %}
+    <div class="row">
+        <h3>{{ spot }}</h3>
+        <br>
+        <div class="col-sm-7">
+            <iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDUPAj0czfKLMWzZyO0brrORVvi4YH1f30&q={{ spots[spot][0] }},{{ spots[spot][1] }}" allowfullscreen></iframe>
+        </div>
 
-  <div class="col-sm-5">
-    <b>Address</b>: {{ spots[spot][2] }}<br>
-    {% if spots[spot][3] != "nope" %}
-    <b>Website</b>: <a href="{{ spots[spot][3] }}">{{ spots[spot][3] }}</a><br>
-    {% endif %}
-    {% if spots[spot][4] != "nope" %}
-    <b>Phone</b>: <u>{{ spots[spot][4] }}</u><br>
-    {% endif %}
-    <b>Favorite</b>
-  </div>
-  
-</div>
-  {% endfor %}
+        <div class="col-sm-5">
+            <b>Address</b>: {{ spots[spot][2] }}<br>
+            {% if spots[spot][3] != "nope" %}
+            <b>Website</b>: <a href="{{ spots[spot][3] }}">{{ spots[spot][3] }}</a><br>
+            {% endif %}
+            {% if spots[spot][4] != "nope" %}
+            <b>Phone</b>: <u>{{ spots[spot][4] }}</u><br>
+            {% endif %}
+            <b>Favorite</b>
+        </div>
+
+    </div>
+    {% endfor %}
 </div>
 
 {% else %}
@@ -53,21 +53,14 @@
 {% endif %}
 {% else %}
 <form action="/Nlocation" method="POST">
-  <div class="input-group">
-    <input class="form-control" type="text" name="address" placeholder="Type in your location">
-    <span class="input-group-btn">
-      <button class="btn btn-primary" type="submit">!!</button>
-      </span>
-  </div>
+    <div class="input-group">
+        <input class="form-control" type="text" name="address" placeholder="Type in your location">
+        <span class="input-group-btn">
+            <button class="btn btn-primary" type="submit">!!</button>
+        </span>
+    </div>
 </form>
 
 {% endif %}
-
-
-<!-- foursquare api:
-Client_ID: IVAQCEMVQ3OR00SDOCEZR4AQ5KEQXXRWKQYRAHLIVM50QWKK
-Client_Secret: JGOJZECQYXHNPVSIH4WK2N5HTNECAJAWFL3RF2E5J03IZRNL
-
--->
 
 {% endblock %}

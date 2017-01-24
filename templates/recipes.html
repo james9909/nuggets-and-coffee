@@ -6,16 +6,17 @@
 
 
 {% for item in range(recipe_len) %}
-{% if loop.index == 1 %} <div class="row"> {% endif %}                                                                                              <div class="card" style="width: 20rem;">                                                                                                            <img class="card-img-top" src={{recipe_images[item]}} height=50% width=50%>                                                                     
-    <div class="card-block">                                                                                                                        
-      <h4 class="card-title">Recipes</h4>                                                                                           
-      <p class="card-text">{{loop.index}}</p>                                                                                                       
-      <a href={{recipe_urls[item]}} class="btn btn-primary">Something else</a>                                                                      
-    </div>                                                                                                                                          
-</div>                                                                                                                                              
-{% if loop.index%3 == 0 %}</div><div class="row">{% endif %}                                                                                      
-{% if loop.index == recipe_len %}</div>{% endif %}                                                                                                
-{% endfor %}                                                                                                                                        
-                                                                                                                                                    
-                                                                                                                                                  
-{% endblock %}      
+{% if loop.index == 1 %} <div class="row"> {% endif %}
+    <div class="card" style="width: 20rem">
+        <img class="card-img-top" src={{recipe_images[item]}} height=50% width=50%>
+        <div class="card-block">
+            <h4 class="card-title">Recipes</h4>
+            <p class="card-text">{{loop.index}}</p>
+            <a href={{recipe_urls[item]}} class="btn btn-primary">Something else</a>
+        </div>
+    </div>
+    {% if loop.index%3 == 0 %}</div><div class="row">{% endif %}
+    {% if loop.index == recipe_len %}</div>{% endif %}
+{% endfor %}
+
+{% endblock %}

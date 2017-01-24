@@ -2,17 +2,17 @@
 
 {% block head %}
 <ul class="nav nav-pills">
-{% if type == "nuggets" %}
-  <li role="presentation" class="active"><a href="/mainNuggets">Nuggets</a></li>
-{% else %}
-  <li role="presentation"><a href="/mainNuggets">Nuggets</a></li>
-{% endif %}
+    {% if type == "nuggets" %}
+    <li role="presentation" class="active"><a href="/mainNuggets">Nuggets</a></li>
+    {% else %}
+    <li role="presentation"><a href="/mainNuggets">Nuggets</a></li>
+    {% endif %}
 
-{% if type=="coffee" %}
-  <li role="presentation" class="active"><a href="/mainCoffee">Coffee</a></li>
-{% else %}
-  <li role="presentation"><a href="/mainCoffee">Coffee</a></li>
-{% endif %}
+    {% if type=="coffee" %}
+    <li role="presentation" class="active"><a href="/mainCoffee">Coffee</a></li>
+    {% else %}
+    <li role="presentation"><a href="/mainCoffee">Coffee</a></li>
+    {% endif %}
 </ul>
 {% endblock %}
 

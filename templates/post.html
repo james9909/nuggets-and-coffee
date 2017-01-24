@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block head %}
-<title> {{ postinfo[2] }} </title> 
+<title> {{ postinfo[2] }} </title>
 {% endblock %}
 
 {% block body %}
@@ -16,14 +16,15 @@ reply: {{ reply[2] }} <br>
 {% endfor %}
 
 <form action="/reply" method="POST">
-<div class="form-group">
-    <div class="row">
-        <div class="col-md-6">
-            <p>Content: <textarea class="form-control" name="content" placeholder="Enter content here" required></textarea></p>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-6">
+                <p>Content: <textarea class="form-control" name="content" placeholder="Enter content here" required></textarea></p>
+            </div>
         </div>
     </div>
-</div>
-<br>
-<input name="postid" value="{{ postinfo[1] }}" type="hidden"> 
-<input class="btn btn-primary" type="submit" value="Reply">
+    <br>
+    <input name="postid" value="{{ postinfo[1] }}" type="hidden">
+    <input class="btn btn-primary" type="submit" value="Reply">
+</form>
 {% endblock %}

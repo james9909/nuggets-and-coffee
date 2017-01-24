@@ -4,7 +4,6 @@
 <title> Forum </title>
 {% endblock %}
 
-
 {% block body %}
 
 <h1><center> Share Your Opinions on Nuggets and Coffee </center></h1>
@@ -13,15 +12,11 @@
 <br>
 {% for post in posts %}
 <div class="well well-sm">
-<a href="/forum/{{ post[1] }}">
- <strong> {{ post[2] }} </strong>
-</a>  
-<span class="text-muted"> by {{ post[0] }} </span> 
+    <a href="/forum/{{ post[1] }}">
+        <strong> {{ post[2] }} </strong>
+    </a>
+    <span class="text-muted"> by {{ post[0] }} </span>
 </div>
 
 {% endfor %}
-
-
 {% endblock %}
-
-

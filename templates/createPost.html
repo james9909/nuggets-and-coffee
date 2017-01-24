@@ -4,20 +4,21 @@
 {% block body %}
 <h1>Make a Post</h1><br>
 <form action="/createPost" method="POST">
-<div class="form-group">
-    <div class="row">
-        <div class="col-md-6">
-            <p>Title: <input class="form-control" type="text" name="title" placeholder="Title" required></p>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-6">
+                <p>Title: <input class="form-control" type="text" name="title" placeholder="Title" required></p>
+            </div>
         </div>
     </div>
-</div>
-<div class="form-group">
-    <div class="row">
-        <div class="col-md-6">
-            <p>Content: <textarea class="form-control" name="content" placeholder="Enter content here" required></textarea></p>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-6">
+                <p>Content: <textarea class="form-control" name="content" placeholder="Enter content here" required></textarea></p>
+            </div>
         </div>
     </div>
-</div>
-<br>
-<input class="btn btn-primary" type="submit" value="Submit">
+    <br>
+    <input class="btn btn-primary" type="submit" value="Submit">
+</form>
 {% endblock %}
