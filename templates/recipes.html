@@ -1,22 +1,25 @@
-{% extends "main.html" %}
+{% extends "base.html" %}
 
 {% block things %}
 
 <a href="/Nlocation">Find a recipe!</a>
+<br><br><br>
 
-
-{% for item in range(recipe_len) %}
-{% if loop.index == 1 %} <div class="row"> {% endif %}
+{% for item in range(recipe_len) -%}
+{% if loop.index is equalto 1 %} <div class="row"> {% endif %}
+  <div class="col-md-4">
     <div class="card" style="width: 20rem">
-        <img class="card-img-top" src={{recipe_images[item]}} height=50% width=50%>
+        <img class="card-img-top" src={{recipe_images[item]}} height=90% width=90%>
         <div class="card-block">
             <h4 class="card-title">{{recipe_titles[item]}}</h4>
-            <p class="card-text">{{loop.index}}</p>
-            <a href={{recipe_urls[item]}} class="btn btn-primary">Something else</a>
+            <a href={{recipe_urls[item]}} class="btn btn-primary">See more</a>
         </div>
     </div>
-    {% if loop.index%3 == 0 %}</div><div class="row">{% endif %}
-    {% if loop.index == recipe_len %}</div>{% endif %}
-{% endfor %}
+    <br>
+    <br>
+  </div>
+    {% if loop.index is divisibleby 3 %}</div><div class="row">{% endif %}
+    {% if loop.index is equalto recipe_len %}</div>{% endif %}
+{%- endfor %}
 
 {% endblock %}
