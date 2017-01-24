@@ -8,11 +8,11 @@
 {% block body %}
 {% if action=="login" %}
 <h1>Log in here</h1><br>
-<form action="/login" method="POST">
+<form id="login-form">
 
 {% else %}
 <h1>Register for an account</h1><br>
-<form action="/register" method="POST">
+<form id="register-form">
 {% endif %}
 <div class="form-group">
     <div class="row">
@@ -53,10 +53,5 @@
     {% else %}<input class="btn btn-primary" type="submit" value="Register">{% endif %}
 </form>
 
-<script>
-$(document).ready(function(){    $('[data-toggle="tooltip"]').tooltip();
-    container:'body'
-});
-</script>
-
+    <script src="/static/js/auth.js"></script>
 {% endblock %}
