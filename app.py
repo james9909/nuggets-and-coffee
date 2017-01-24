@@ -27,8 +27,12 @@ def login():
         success, message = utils.accountManager.authenticate(username, hashed_password)
 
         if success:
+            print("login success!")
             session["username"] = username
             return render_template("main.html", type=utils.accountManager.get_type(username)[0])
+
+        else:
+            print("login failed")
 
     return render_template("login.html", action="login")
 
@@ -46,10 +50,10 @@ def create_account():
         type_selected = request.form["types"]
 
         success, message = utils.accountManager.register(username, password, confirm_password, type_selected)
-
         if success:
             session["username"] = username
-            return render_template("main.html", type=utils.accountManager.get_type(username)[0])
+
+            return render_template("main.html", type=type_selected)
 
     return render_template("login.html", action="register")
 
@@ -136,12 +140,11 @@ def createPost():
 
 @app.route("/recipes")
 def show_recipes():
-    #type_r = utils.accountManager.get_type(secret[session])
-    r_images = utils.apifunctions.get_image(utils.apifunctions.get_recipes("coffee cake"))
-    #r_title = utils.apifunctions.get_titles(utils.apifunctions.get_titles("coffee cake"))
-    r_urls = utils.apifunctions.get_image(utils.apifunctions.get_source("coffee cake"))
-
-    return render_template("recipes.html", recipe_images = r_images, recipe_len = len(r_images), logged_status="true")
+    type_r = "coffee"#utils.accountManager.get_type(session["username"])
+    r_images = utils.apifunctions.get_image(utils.apifunctions.get_recipes(type_r))
+    r_titles = utils.apifunctions.get_titles(utils.apifunctions.get_recipes(type_r))
+    r_urls = utils.apifunctions.get_image(utils.apifunctions.get_recipes(type_r))
+    return render_template("recipes.html", recipe_images = r_images, recipe_titles = r_titles, recipe_urls = r_urls, recipe_len = len(r_images), logged_status="true")
 
 @app.route("/reply", methods=["POST"])
 def reply():

@@ -75,7 +75,7 @@ def get_rank(recipes):
         titles[i] = str(recipes[0]['social_rank'])
     return titles
 
-#print(get_titles(get_recipes('chicken')))
+#print(get_source(get_recipes('chicken')))
 
 if __name__ == "__main__":
     config.load_keys()
