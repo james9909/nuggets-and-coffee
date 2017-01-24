@@ -7,12 +7,14 @@ def authenticate(username, password):
     c = db.cursor()
 
     c.execute("SELECT password FROM users WHERE username = ?", (username,))
-    result = c.fetchall()
+    result = c.fetchone()
 
     success = False
     message = ""
 
     if result:
+        print password
+        print result[0]
         if result[0] == password:
             success = True
             message = "Success!"

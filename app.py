@@ -1,7 +1,7 @@
 import hashlib
 import os
 import utils
-from flask import Flask, render_template, session, request, redirect, url_for
+from flask import Flask, jsonify, render_template, session, request, redirect, url_for
 from itertools import count, groupby
 from utils import postManager, accountManager
 from utils.apifunctions import foursq, getlatlng
@@ -14,7 +14,7 @@ def index():
         name = session["username"]
         return render_template("main.html", type=utils.accountManager.get_type(name)[0])
         # return render_template('mainCoffee.html')
-    return render_template("base.html")
+    return redirect(url_for("login"))
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -28,7 +28,7 @@ def login():
 
         if success:
             session["username"] = username
-            return render_template("main.html", type=utils.accountManager.get_type(username)[0])
+        return jsonify({"success": success, "message": message})
 
     return render_template("login.html", action="login")
 
@@ -47,9 +47,7 @@ def create_account():
 
         success, message = utils.accountManager.register(username, password, confirm_password, type_selected)
 
-        if success:
-            session["username"] = username
-            return render_template("main.html", type=utils.accountManager.get_type(username)[0])
+        return jsonify({"success": success, "message": message})
 
     return render_template("login.html", action="register")
 
