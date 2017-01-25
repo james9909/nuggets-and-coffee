@@ -13,11 +13,11 @@ Team Members
 - Jordan Yaqoob - Database management
 
 ## Setting up
-The `foursquare` and `geocoder` python libraries are required to run the application, which can be installed using pip.
+Install all required python libraries by running:
 
 `$ pip install -r requirements.txt`
 
-API keys must be placed in `utils/.keys`. Each key needs to be placed on a new line, following the format `KEY=VALUE`.
+API keys must be placed in `utils/.keys`. Each key needs to be placed on a new line, following the format `KEY=VALUE`. No quotes are necessary
 
 Example:
 ```
@@ -27,28 +27,10 @@ API_KEY=SECRET
 
 An example config can be found in `utils/.keys.example`
 
-## Usage
+## Running the application
 
-To run the website from terminal:
-
-- If flask is not installed
-```
-$ pip install flask
-```
-- If sqlite3 is not installed
-```
-$ pip install sqlite3
-```
-- If foursquare is not installed
-```
-$ pip install foursquare
-```
-- If geocoder is not installed
-```
-$ pip install geocoder
-```
-- To run from main directory
+In the root directory of the repository, run:
 ```
 $ python app.py
 ```
-- Open a browser to localhost:5000
+Open [localhost:5000](http://localhost:5000) in a browser
