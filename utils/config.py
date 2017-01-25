@@ -8,6 +8,6 @@ def load_keys():
         f = open("utils/.keys", "r")
         for line in f:
             if "=" in line:
-                line = line.split("=")
+                line = line.strip().split("=")
                 key, value = line[0], line[1]
                 keys[key] = value

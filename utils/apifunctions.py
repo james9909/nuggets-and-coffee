@@ -44,7 +44,7 @@ def foursq(lat, lng, NC):
 # RECIPES
 
 def get_recipes(query):
-    headers = {'key':'a8474350b415ca27e934104adaffa683','q':query}
+    headers = {'key':config.keys["RECIPE_KEY"],'q':query}
     response = requests.get("http://food2fork.com/api/search", headers)
     recipes = response.json()['recipes']
     return recipes
