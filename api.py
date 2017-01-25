@@ -38,6 +38,7 @@ def login():
 
     if success:
         session["username"] = username
+        response["redirect"] = "/"
 
     return response
 

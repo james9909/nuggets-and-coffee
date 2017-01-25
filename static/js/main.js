@@ -57,9 +57,7 @@ var login = function(e) {
     e.preventDefault();
     var data = $(this).serializeObject();
     apiCall("POST", "/api/user/login", data, function(result) {
-        if (result.success) {
-            window.location.href = "/";
-        } else {
+        if (!result.success) {
             $.notify(result.message, "error");
         }
     });

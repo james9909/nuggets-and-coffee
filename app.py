@@ -3,7 +3,7 @@ import random
 from flask import Flask, render_template, session, redirect, url_for
 
 import api
-from utils import accountManager, config, postManager
+from utils import accountManager, config, db_builder, postManager
 
 app = Flask(__name__)
 app.register_blueprint(api.api, url_prefix="/api")
@@ -17,6 +17,8 @@ def index():
             return render_template("mainCoffee.html")
         elif _type == "nuggets":
             return render_template("mainNuggets.html")
+        else:
+            return render_template("main.html")
     return redirect(url_for("login"))
 
 @app.route("/login")
@@ -56,7 +58,7 @@ def create_account():
 @app.route("/favorites")
 def fav_page():
     if "username" in session:
-        return render_template("main.html", type=utils.accountManager.get_type(session["username"][0]))
+        return render_template("main.html", type=accountManager.get_type(session["username"][0]))
     else:
         return redirect(url_for("login"))
 
@@ -103,6 +105,8 @@ def show_recipes():
     return render_template("recipes.html", posted = "false", valueq="Coffee and Nuggets")
 
 if __name__ == "__main__":
+    db_builder.create_tables()
+
     # Generate and store secret key if it doesn't exist
     with open(".secret_key", "a+b") as f:
         secret_key = f.read()
