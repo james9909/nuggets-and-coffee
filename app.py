@@ -117,5 +117,4 @@ if __name__ == "__main__":
         app.secret_key = secret_key
 
     config.load_keys()
-    app.debug = True
     app.run()
