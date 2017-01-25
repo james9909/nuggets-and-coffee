@@ -43,33 +43,34 @@ var updateType = function(o) {
     });
 };
 
-$("#login-form").submit(function(e) {
+var login = function(e) {
     e.preventDefault();
     var data = $(this).serializeObject();
-    api_call("POST", "/login", data, function(result) {
-        console.log(result);
+    api_call("POST", "/api/user/login", data, function(result) {
         if (result.success) {
             window.location.href = "/";
         } else {
             $.notify(result.message, "error");
         }
     });
-});
+};
 
-$("#register-form").submit(function(e) {
+var register = function(e) {
     e.preventDefault();
     var data = $(this).serializeObject();
-    api_call("POST", "/register", data, function(result) {
-        console.log(result);
+    api_call("POST", "/api/user/register", data, function(result) {
         if (result.success) {
             $.notify(result.message, "success");
         } else {
             $.notify(result.message, "error");
         }
     });
-});
+};
 
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();
-    container:'body'
+
+    $("#login-form").submit(login);
+
+    $("#register-form").submit(register);
 });

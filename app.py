@@ -6,8 +6,10 @@ from flask import Flask, jsonify, render_template, session, request, redirect, u
 from itertools import count, groupby
 from utils import postManager, accountManager
 from utils.apifunctions import foursq, getlatlng
+import api
 
 app = Flask(__name__)
+app.register_blueprint(api.api, url_prefix="/api")
 
 @app.route("/")
 def index():
@@ -20,7 +22,7 @@ def index():
             return render_template("mainNuggets.html")
     return redirect(url_for("login"))
 
-@app.route("/login", methods=["GET", "POST"])
+@app.route("/login")
 def login():
     with open('pics.txt', 'r') as myfile:
         data=myfile.read().replace("\n", "").split(",")
@@ -32,24 +34,6 @@ def login():
             data.remove(temp+",")
         except:
             data.remove(temp)
-    if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
-
-        hashed_password = hashlib.sha1(password).hexdigest()
-
-        success, message = utils.accountManager.authenticate(username, hashed_password)
-
-        if success:
-            print("login success!")
-            session["username"] = username
-
-        else:
-            print("login failed")
-
-        return jsonify({"success": success, "message": message})
-
-
     return render_template("login.html", nc=nc)
 
 @app.route("/logout")
@@ -57,7 +41,7 @@ def logout():
     session.clear()
     return redirect(url_for("index"))
 
-@app.route("/register", methods=["GET", "POST"])
+@app.route("/register")
 def create_account():
     with open('pics.txt', 'r') as myfile:
         data=myfile.read().replace("\n", "").split(",")
@@ -69,20 +53,6 @@ def create_account():
             data.remove(temp+",")
         except:
             data.remove(temp)
-    if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
-        confirm_password = request.form["passconfirm"]
-
-        success, message = utils.accountManager.register(username, password, confirm_password)
-
-        response = {"success": success, "message": message}
-
-        if success:
-            session["username"] = username
-            response["redirect"] = "/"
-
-        return jsonify(response)
 
     return render_template("register.html", nc=nc)
 
