@@ -10,20 +10,26 @@ def getlatlng(address):
 
 def foursq(lat, lng, NC):
     client = foursquare.Foursquare(client_id=config.keys["FOURSQUARE_CLIENT_ID"], client_secret=config.keys["FOURSQUARE_CLIENT_SECRET"])
-    if NC=="nugget":
-        L = client.venues.search(params={'query': 'chicken nuggets', 'll': str(lat)+','+str(lng), 'radius': '1000'})
+
+    if NC == "nugget":
+        query = "chicken nuggets"
     else:
-        L = client.venues.search(params={'query': 'coffee', 'll': str(lat)+','+str(lng), 'radius': '1000'})
+        query = "coffee"
+
+    venues = client.venues.search(params={'query': query, 'll': "%s,%s" % (lat, lng), 'radius': '1000'})
 
     locations = []
-    for i in L["venues"]:
+    if len(venues["venues"]) == 0:
+        return locations
+
+    for venue in venues["venues"][:10]: # Limit to ten venues
         location = {
-            "name": i["name"],
-            "lat": i["location"]["labeledLatLngs"][0]["lat"],
-            "lng": i["location"]["labeledLatLngs"][0]["lng"],
-            "address": ", ".join(i["location"]["formattedAddress"])[:-2],
-            "url": i.get("url", "N/A"),
-            "phone": i["contact"].get("formattedPhone", "N/A")
+            "name": venue["name"],
+            "lat": venue["location"]["labeledLatLngs"][0]["lat"],
+            "lng": venue["location"]["labeledLatLngs"][0]["lng"],
+            "address": ", ".join(venue["location"]["formattedAddress"])[:-2],
+            "url": venue.get("url", "N/A"),
+            "phone": venue["contact"].get("formattedPhone", "N/A")
         }
         locations.append(location)
     return locations
@@ -31,9 +37,12 @@ def foursq(lat, lng, NC):
 # RECIPES
 
 def get_recipes(query):
-    headers = {'key':config.keys["RECIPE_KEY"],'q':query}
+    headers = {"key":config.keys["RECIPE_KEY"],"q":query}
     response = requests.get("http://food2fork.com/api/search", headers)
-    recipes = response.json()['recipes']
+    try:
+        recipes = response.json()["recipes"]
+    except:
+        recipes = []
     return recipes
 
 def get_titles(recipes):
@@ -77,15 +86,3 @@ def get_puburl(recipes):
     for i in range(len(recipes)):
         titles[i] = recipes[i]['publisher_url'].encode('utf-8')
     return titles
-
-
-#print(get_titles(get_recipes('coffee')))
-#print(get_image(get_recipes('coffee')))
-
-if __name__ == "__main__":
-    config.load_keys()
-    location = "Stuy"
-    try:
-        foursq(getlatlng(location)[0], getlatlng(location)[1], "coffee")
-    except:
-        print("doesn't work")

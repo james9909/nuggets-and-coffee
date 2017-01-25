@@ -1,12 +1,9 @@
-import hashlib
 import os
-import utils
 import random
-from flask import Flask, jsonify, render_template, session, request, redirect, url_for
-from itertools import count, groupby
-from utils import postManager, accountManager
-from utils.apifunctions import foursq, getlatlng
+from flask import Flask, render_template, session, redirect, url_for
+
 import api
+from utils import accountManager, config, postManager
 
 app = Flask(__name__)
 app.register_blueprint(api.api, url_prefix="/api")
@@ -15,10 +12,10 @@ app.register_blueprint(api.api, url_prefix="/api")
 def index():
     if "username" in session:
         name = session["username"]
-        type=utils.accountManager.get_type(name)[0]
-        if (type == "coffee"):
+        _type=accountManager.get_type(name)[0]
+        if _type == "coffee":
             return render_template("mainCoffee.html")
-        elif (type == "nuggets"):
+        elif _type == "nuggets":
             return render_template("mainNuggets.html")
     return redirect(url_for("login"))
 
@@ -77,54 +74,13 @@ def main_coffee():
     else:
         return redirect(url_for("login"))
 
-@app.route("/Nlocation", methods=["GET", "POST"])
+@app.route("/Nlocation")
 def Nlocation():
-    if "username" in session:
-        naddress = ""
-        spots = {}
-        a = ""
-        name = ""
-        works = True
-        if request.method == "POST":
-            a = request.form["address"]
-            for i in a:
-                if i == " ":
-                    naddress+="%20"
-                    name+="-"
-                else:
-                    naddress+=i
-                    name+=i
-            try:
-                spots = foursq(getlatlng(a)[0],getlatlng(a)[1],"nugget")
-            except:
-                works = False
-        return render_template("Nlocation.html", name = name, naddress=naddress, spots=spots, works=works)
-    else:
-        return redirect(url_for("login"))
+    return render_template("Nlocation.html")
 
-@app.route("/Clocation", methods=["GET", "POST"])
+@app.route("/Clocation")
 def Clocation():
-    naddress = ""
-    spots = {}
-    a = ""
-    name = ""
-    works = True
-    if request.method == "POST":
-        a = request.form["address"]
-        for i in a:
-            if(i==" "):
-                naddress+="%20"
-                name+="-"
-            else:
-                naddress+=i
-                name+=i
-        try:
-            spots = foursq(getlatlng(a)[0],getlatlng(a)[1],"coffee")
-        except:
-            works = False
-#print(spots)
-    return render_template("Clocation.html", name = name, naddress=naddress, spots=spots, works=works)
-
+    return render_template("Clocation.html")
 
 @app.route("/forum")
 @app.route("/forum/<postid>")
@@ -156,6 +112,6 @@ if __name__ == "__main__":
             f.flush()
         app.secret_key = secret_key
 
-    utils.config.load_keys()
+    config.load_keys()
     app.debug = True
     app.run()
