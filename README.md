@@ -16,3 +16,29 @@ API_KEY=SECRET
 ```
 
 An example config can be found in `utils/.keys.example`
+
+## Usage
+
+To run the website from terminal:
+
+- If flask is not installed
+```
+$ pip install flask
+```
+- If sqlite3 is not installed
+```
+$ pip install sqlite3
+```
+- If foursquare is not installed
+```
+$ pip install foursquare
+```
+- If geocoder is not installed
+```
+$ pip install geocoder
+```
+- To run from main directory
+```
+$ python app.py
+```
+- Open a browser to localhost:5000
