@@ -138,52 +138,13 @@ def forum(postid=None):
     replies = postManager.getReplies(postid)
     return render_template("post.html", postinfo=postinfo, replies=replies)
 
-@app.route("/createPost", methods=["GET","POST"])
+@app.route("/createPost")
 def createPost():
-    if request.method == "GET":
-        return render_template("createPost.html")
-    else:
-        username = session["username"]
-        title = request.form["title"]
-        content = request.form["content"]
-        postid = postManager.createPost(username, title, content)
-    return redirect("/forum/" + str(postid))
+    return render_template("createPost.html")
 
-@app.route("/recipes", methods=["GET", "POST"])
+@app.route("/recipes")
 def show_recipes():
-    if "username" in session:
-        if request.method == "POST":
-            type_r = request.form["food_query"]
-            r_images = utils.apifunctions.get_image(utils.apifunctions.get_recipes(type_r))
-            r_titles = utils.apifunctions.get_titles(utils.apifunctions.get_recipes(type_r))
-            r_urls = utils.apifunctions.get_source(utils.apifunctions.get_recipes(type_r))
-            f_urls = utils.apifunctions.get_f2f(utils.apifunctions.get_recipes(type_r))
-            r_rank = utils.apifunctions.get_rank(utils.apifunctions.get_recipes(type_r))
-            p_ub = utils.apifunctions.get_pub(utils.apifunctions.get_recipes(type_r))
-            p_url = utils.apifunctions.get_puburl(utils.apifunctions.get_recipes(type_r))
-            return render_template("recipes.html", recipe_images = r_images, recipe_titles = r_titles, recipe_urls = r_urls, recipe_len = len(r_images), f2f_urls = f_urls,rankings = r_rank, posted="true", valueq=type_r, pubs = p_ub, puburls = p_url)
-
-        else:
-            return render_template("recipes.html", posted = "false", valueq="Coffee and Nuggets")
-    else:
-        return redirect(url_for("login"))
-
-@app.route("/reply", methods=["POST"])
-def reply():
-    if "username" in session:
-        username = session["username"]
-    else:
-        username = "anonymous"
-    postid = request.form["postid"]
-    content = request.form["content"]
-    postManager.makeReply(username, postid, content)
-    return redirect("/forum/"+str(postid))
-
-@app.route("/updateType", methods=["POST"])
-def update_type():
-    _type = request.form["type"]
-    utils.accountManager.updateInfo(session.get("username"), type=_type)
-    return jsonify({"success": 1, "message": "Preference set to %s" % _type})
+    return render_template("recipes.html", posted = "false", valueq="Coffee and Nuggets")
 
 if __name__ == "__main__":
     # Generate and store secret key if it doesn't exist

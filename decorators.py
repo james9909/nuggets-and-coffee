@@ -4,8 +4,6 @@ from functools import wraps
 import json
 import traceback
 
-class WebException(Exception): pass
-
 response_header = { "Content-Type": "application/json; charset=utf-8" }
 
 def api_wrapper(f):
@@ -15,8 +13,6 @@ def api_wrapper(f):
         response = 200
         try:
             web_result = f(*args, **kwargs)
-        except WebException as error:
-            web_result = { "success": 0, "message": str(error) }
         except Exception as error:
             traceback.print_exc()
             web_result = { "success": 0, "message": "Something went wrong!"}

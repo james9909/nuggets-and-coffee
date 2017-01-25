@@ -7,62 +7,58 @@
 {% block body %}
 
 <div class="container">
-  
-  <div class="row">
-    
-          <!-- Blog Post Content Column -->
-          <div class="col-lg-8">
 
-	    <a href="/forum"> Back to Forum </a>
+    <div class="row">
+
+        <!-- Blog Post Content Column -->
+        <div class="col-lg-8">
+
+            <a href="/forum"> Back to Forum </a>
             <!-- Blog Post -->
-	    
+
             <!-- Title -->
             <h1>{{ postinfo[2] }}</h1>
-	    
+
             <!-- Author -->
             <p class="lead">
-              by {{ postinfo[0] }}
+            by {{ postinfo[0] }}
             </p>
-	    
             <hr>
-	    
+
             <!-- Date/Time -->
             <p>Posted on {{ postinfo[4] }}</p>
-	    
             <hr>
-	    
             <hr>
-	    
+
             <!-- Post Content -->
-	    {{ postinfo[3] }}
+            {{ postinfo[3] }}
             <hr>
 
-
-	    <h2><strong> Comments: </strong></h2>
-	    {% for reply in replies %}
-	    <div class="media">
-              <div class="media-body">
-                <h4 class="media-heading"> {{ reply[0] }}
-                  <small>{{ reply[3] }}</small>
-                </h4>
-		{{ reply[2] }}
-              </div>
-            </div>
-	    {% endfor %}
-
-	    <br>
-	    <div class="well">
-              <h4>Leave a Comment:</h4>
-              <form role="form" action="/reply" method="POST">
-                <div class="form-group">
-                  <textarea name="content" class="form-control" rows="3" required></textarea>
+            <h2><strong> Comments: </strong></h2>
+            {% for reply in replies %}
+            <div class="media">
+                <div class="media-body">
+                    <h4 class="media-heading"> {{ reply[0] }}
+                        <small>{{ reply[3] }}</small>
+                    </h4>
+                    {{ reply[2] }}
                 </div>
-		<input name="postid" value="{{ postinfo[1] }}" type="hidden">
-                <button type="submit" class="btn btn-primary" value="Reply">Submit</button>
-              </form>
             </div>
-	  </div>
-  </div>
+            {% endfor %}
+
+            <br>
+            <div class="well">
+                <h4>Leave a Comment:</h4>
+                <form role="form" id="reply-form">
+                    <div class="form-group">
+                        <textarea name="content" class="form-control" rows="3" required></textarea>
+                    </div>
+                    <input name="postid" value="{{ postinfo[1] }}" type="hidden">
+                    <button type="submit" class="btn btn-primary" value="Reply">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 

@@ -15,14 +15,24 @@ $.fn.serializeObject = function() {
     return o;
 };
 
-var api_call = function(method, url, data, success_callback) {
+String.prototype.format = function() {
+    var args = arguments;
+    return this.replace(/{(\d+)}/g, function(match, number) {
+        return typeof args[number] != 'undefined'
+            ? args[number]
+            : match
+        ;
+    });
+};
+
+var apiCall = function(method, url, data, success) {
     $.ajax({
         "type": method,
         "datatype": "json",
         "data": data,
         "url": url
     }).done(function(result) {
-        success_callback(result);
+        success(result);
         setTimeout(function() {
             if (result.redirect) {
                 window.location.href = result.redirect;
@@ -34,11 +44,11 @@ var api_call = function(method, url, data, success_callback) {
 };
 
 var updateType = function(o) {
-    api_call("POST", "/updateType", {"type": o.value}, function(result) {
+    apiCall("POST", "/api/user/updateType", {"type": o.value}, function(result) {
         if (result.success) {
             $.notify(result.message, "success");
         } else {
-            $.notify(result.message);
+            $.notify(result.message, "error");
         }
     });
 };
@@ -46,7 +56,7 @@ var updateType = function(o) {
 var login = function(e) {
     e.preventDefault();
     var data = $(this).serializeObject();
-    api_call("POST", "/api/user/login", data, function(result) {
+    apiCall("POST", "/api/user/login", data, function(result) {
         if (result.success) {
             window.location.href = "/";
         } else {
@@ -58,7 +68,7 @@ var login = function(e) {
 var register = function(e) {
     e.preventDefault();
     var data = $(this).serializeObject();
-    api_call("POST", "/api/user/register", data, function(result) {
+    apiCall("POST", "/api/user/register", data, function(result) {
         if (result.success) {
             $.notify(result.message, "success");
         } else {
@@ -67,10 +77,94 @@ var register = function(e) {
     });
 };
 
+var createPost = function(e) {
+    e.preventDefault();
+    var data = $(this).serializeObject();
+    apiCall("POST", "/api/post/create", data, function(result) {
+        if (!result.success) {
+            $.notify(result.message, "error");
+        }
+    });
+}
+
+var reply = function(e) {
+    e.preventDefault();
+    var data = $(this).serializeObject();
+    apiCall("POST", "/api/post/reply", data, function(result) {
+        if (!result.success) {
+            $.notify(result.message, "error");
+        }
+    });
+}
+
+var recipeTemplate = `
+<div class="card">
+    <div class="card-image">
+        <center>
+            <img class="img-responsive" src="{0}" height=50px>
+        </center>
+    </div>
+
+    <div class="card-content">
+        <span class="card-title">{1}</span>
+        <button type="button" id="show" class="btn btn-custom pull-right" aria-label="Left Align">
+            <i class="fa fa-ellipsis-v"></i>
+        </button>
+    </div>
+    <div class="card-action">
+        <a href={2} target="new_blank" style="!font-family: 'Amatic SC';"><span class="glyphicon glyphicon-bookmark"> Visit recipe source</a>
+        <a href={3} target="new_blank" style="!font-family: 'Amatic SC';"><span class="glyphicon glyphicon-cutlery"> Find recipe online</a>
+    </div>
+    <div class="card-reveal">
+        <span class="card-title">Recipe Information</span> <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <p>Ranking: {4}<br>Publisher: {5}<br>Publisher URL: {6}</p>
+    </div>
+</div>
+`;
+
+var addRecipe = function(recipe) {
+    $("#recipes").append(recipeTemplate.format(
+        recipe["image"],
+        recipe["title"],
+        recipe["recipeUrl"],
+        recipe["f2fUrl"],
+        recipe["ranking"],
+        recipe["publisher"],
+        recipe["publisherUrl"]
+    ));
+    $("#recipes").append("<br>");
+};
+
+var getRecipes = function(e) {
+    e.preventDefault();
+    var data = $(this).serializeObject();
+    apiCall("POST", "/api/recipes", data, function(result) {
+        if (result.success) {
+            var recipes = result.recipes;
+            $("#recipes").html("");
+            $.notify(result.message, "success");
+            for (var i = 0; i < recipes.length; i++) {
+                addRecipe(recipes[i]);
+            }
+            $('#show').on("click",function(){
+                $(".card-reveal").slideToggle("slow");
+            });
+
+            $(".card-reveal .close").on("click",function(){
+                $(".card-reveal").slideToggle("slow");
+            });
+        } else {
+            $.notify(result.message, "error");
+        }
+    });
+}
+
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();
 
     $("#login-form").submit(login);
-
     $("#register-form").submit(register);
+    $("#new-post-form").submit(createPost);
+    $("#reply-form").submit(reply);
+    $("#recipe-form").submit(getRecipes);
 });
