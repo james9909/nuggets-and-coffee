@@ -19,7 +19,7 @@ def createPost(username, title, content):
 
     query = "INSERT INTO posts VALUES (?, NULL, ?, ?, ?)"
 
-    timestamp = int(datetime.datetime.now().strftime("%s"))
+    timestamp = '{:%Y-%b-%d %H:%M:%S}'.format(datetime.datetime.now())
     c.execute(query, (username, title, content, timestamp,))
 
     postid = c.lastrowid
@@ -35,7 +35,7 @@ def makeReply(username, postid, content):
 
     query = "INSERT INTO replies VALUES(?, ?, ?, ?)"
 
-    timestamp = int(datetime.datetime.now().strftime("%s"))
+    timestamp = '{:%Y-%b-%d %H:%M:%S}'.format(datetime.datetime.now())
     c.execute(query, (username, postid, content, timestamp,))
 
     db.commit()

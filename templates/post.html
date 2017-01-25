@@ -5,26 +5,66 @@
 {% endblock %}
 
 {% block body %}
-Title: {{ postinfo[2] }} <br>
-Author: {{ postinfo[0] }} <br>
-Timestamp: {{ postinfo[4] }} <br>
-Content: <br>
-{{ postinfo[3] }} <br>
 
-{% for reply in replies %}
-reply: {{ reply[2] }} <br>
-{% endfor %}
+<div class="container">
+  
+  <div class="row">
+    
+          <!-- Blog Post Content Column -->
+          <div class="col-lg-8">
 
-<form action="/reply" method="POST">
-    <div class="form-group">
-        <div class="row">
-            <div class="col-md-6">
-                <p>Content: <textarea class="form-control" name="content" placeholder="Enter content here" required></textarea></p>
+	    <a href="/forum"> Back to Forum </a>
+            <!-- Blog Post -->
+	    
+            <!-- Title -->
+            <h1>{{ postinfo[2] }}</h1>
+	    
+            <!-- Author -->
+            <p class="lead">
+              by {{ postinfo[0] }}
+            </p>
+	    
+            <hr>
+	    
+            <!-- Date/Time -->
+            <p>Posted on {{ postinfo[4] }}</p>
+	    
+            <hr>
+	    
+            <hr>
+	    
+            <!-- Post Content -->
+	    {{ postinfo[3] }}
+            <hr>
+
+
+	    <h2><strong> Comments: </strong></h2>
+	    {% for reply in replies %}
+	    <div class="media">
+              <div class="media-body">
+                <h4 class="media-heading"> {{ reply[0] }}
+                  <small>{{ reply[3] }}</small>
+                </h4>
+		{{ reply[2] }}
+              </div>
             </div>
-        </div>
-    </div>
-    <br>
-    <input name="postid" value="{{ postinfo[1] }}" type="hidden">
-    <input class="btn btn-primary" type="submit" value="Reply">
-</form>
+	    {% endfor %}
+
+	    <br>
+	    <div class="well">
+              <h4>Leave a Comment:</h4>
+              <form role="form" action="/reply" method="POST">
+                <div class="form-group">
+                  <textarea name="content" class="form-control" rows="3" required></textarea>
+                </div>
+		<input name="postid" value="{{ postinfo[1] }}" type="hidden">
+                <button type="submit" class="btn btn-primary" value="Reply">Submit</button>
+              </form>
+            </div>
+	  </div>
+  </div>
+</div>
+
+
+
 {% endblock %}
