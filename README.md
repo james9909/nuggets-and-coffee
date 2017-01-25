@@ -6,6 +6,12 @@
 
 Our demo video is viewable at: https://youtu.be/3xrn0bD6Pco
 
+Team Members
+- James Wang - Project Manager
+- Jiaqi Gao - UI/UX
+- Sharon Lin - Backend/Recipes
+- Jordan Yaqoob - Database management
+
 ## Setting up
 The `foursquare` and `geocoder` python libraries are required to run the application, which can be installed using pip.
 
