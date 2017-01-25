@@ -26,15 +26,8 @@ def index():
 def login():
     with open('pics.txt', 'r') as myfile:
         data=myfile.read().replace("\n", "").split(",")
-    nc = []
-    for i in range(0, 12):
-        temp = random.choice(data)
-        nc.append(temp)
-        try:
-            data.remove(temp+",")
-        except:
-            data.remove(temp)
-    return render_template("login.html", nc=nc)
+    data = random.shuffle(data)[:12] # Get 12 random pictures
+    return render_template("login.html", nc=data)
 
 @app.route("/logout")
 def logout():
@@ -44,17 +37,10 @@ def logout():
 @app.route("/register")
 def create_account():
     with open('pics.txt', 'r') as myfile:
-        data=myfile.read().replace("\n", "").split(",")
-    nc = []
-    for i in range(0, 12):
-        temp = random.choice(data)
-        nc.append(temp)
-        try:
-            data.remove(temp+",")
-        except:
-            data.remove(temp)
+        data=myfile.read().strip().split(",")
+    data = random.shuffle(data)[:12] # Get 12 random pictures
 
-    return render_template("register.html", nc=nc)
+    return render_template("register.html", nc=data)
 
 @app.route("/favorites")
 @login_required
