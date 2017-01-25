@@ -4,7 +4,7 @@
 
 <form action="/recipes" method="POST">
     <div class="input-group">
-        <input class="form-control" type="text" name="food_query" placeholder="Coffee and Nuggets">
+        <input class="form-control" type="text" name="food_query" placeholder="{{valueq}}">
         <span class="input-group-btn">
             <button class="btn btn-primary" type="submit">Search</button>
         </span>
@@ -20,7 +20,9 @@
         <img class="card-img-top" src={{recipe_images[item]}} height=90% width=90%>
         <div class="card-block">
             <h4 class="card-title">{{recipe_titles[item].decode('utf-8')}}</h4>
-            <a href={{recipe_urls[item]}} class="btn btn-primary">See more</a>
+           <button type="button" class="btn btn-default btn-sm">
+	     <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Like
+	   </button> <a href={{recipe_urls[item]}} class="btn btn-primary">See more</a>
         </div>
     </div>
     <br>
