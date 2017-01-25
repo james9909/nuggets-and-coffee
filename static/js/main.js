@@ -6,10 +6,25 @@ var api_call = function(method, url, data, success_callback) {
         "url": url
     }).done(function(result) {
         success_callback(result);
+        setTimeout(function() {
+            if (result.redirect) {
+                window.location.href = result.redirect;
+            }
+        }, 1000);
     }).fail(function() {
         $.notify("Error contacting the server.");
     });
 }
+
+var updateType = function(o) {
+    api_call("POST", "/updateType", {"type": o.value}, function(result) {
+        if (result.success) {
+            $.notify(result.message, "success");
+        } else {
+            $.notify(result.message);
+        }
+    });
+};
 
 $.fn.serializeObject = function() {
     var a, o;

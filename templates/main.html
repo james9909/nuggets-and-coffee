@@ -1,6 +1,36 @@
 {% extends "base.html" %}
 
 {% block head %}
+<div id="type-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><p>Nuggets OR Coffee</h4>
+            </div>
+            <div class="modal-body">
+                <form id="type-form">
+                    <input type="radio" name="type" value="nuggets" onclick="updateType(this);"> Nuggets<br>
+                    <input type="radio" name="type" value="coffee" onclick="updateType(this);"> Coffee<br>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Done</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% if not type %}
+<script>
+$("#type-modal").modal("show");
+$("#type-modal").on("hidden.bs.modal", function () {
+    window.location.reload();
+});
+</script>
+{% endif %}
+
 <ul class="nav nav-pills">
     {% if type == "nuggets" %}
     <li role="presentation" class="active"><a href="/mainNuggets">Nuggets</a></li>

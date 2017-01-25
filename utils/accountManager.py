@@ -26,7 +26,7 @@ def authenticate(username, password):
     db.close()
     return success, message
 
-def register(username, password, password2, _type):
+def register(username, password, password2):
     f = "database.db"
     db = sqlite3.connect(f, check_same_thread=False)
     c = db.cursor()
@@ -44,7 +44,7 @@ def register(username, password, password2, _type):
         message = "Passwords do not match"
     else:
         password = hashlib.sha1(password).hexdigest()
-        c.execute("INSERT INTO users VALUES (NULL, ?, ?, ?, '')", (username, password, _type,))
+        c.execute("INSERT INTO users VALUES (NULL, ?, ?, '', '')", (username, password,))
         success = True
         message = "Account created"
 

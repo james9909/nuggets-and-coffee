@@ -49,16 +49,16 @@ def create_account():
         username = request.form["username"]
         password = request.form["password"]
         confirm_password = request.form["passconfirm"]
-        type_selected = request.form["types"]
 
-        success, message = utils.accountManager.register(username, password, confirm_password, type_selected)
+        success, message = utils.accountManager.register(username, password, confirm_password)
+
+        response = {"success": success, "message": message}
 
         if success:
             session["username"] = username
+            response["redirect"] = "/"
 
-            return render_template("main.html", type=type_selected)
-
-        return jsonify({"success": success, "message": message})
+        return jsonify(response)
 
     return render_template("login.html", action="register")
 
@@ -71,14 +71,14 @@ def fav_page():
 
 @app.route("/mainNuggets")
 def main_nug():
-    if "username" in session:        
+    if "username" in session:
         return render_template("mainNuggets.html")
     else:
         return redirect(url_for("login"))
 
 @app.route("/mainCoffee")
 def main_coffee():
-    if "username" in session:        
+    if "username" in session:
         return render_template("mainCoffee.html")
     else:
         return redirect(url_for("login"))
@@ -161,7 +161,7 @@ def show_recipes():
             r_titles = utils.apifunctions.get_titles(utils.apifunctions.get_recipes(type_r))
             r_urls = utils.apifunctions.get_source(utils.apifunctions.get_recipes(type_r))
             return render_template("recipes.html", recipe_images = r_images, recipe_titles = r_titles, recipe_urls = r_urls, recipe_len = len(r_images), posted="true")
-        
+
         else:
             return render_template("recipes.html", posted = "false")
     else:
@@ -177,6 +177,12 @@ def reply():
     content = request.form["content"]
     postManager.makeReply(username, postid, content)
     return redirect("/forum/"+str(postid))
+
+@app.route("/updateType", methods=["POST"])
+def update_type():
+    _type = request.form["type"]
+    utils.accountManager.updateInfo(session.get("username"), type=_type)
+    return jsonify({"success": 1, "message": "Preference set to %s" % _type})
 
 if __name__ == "__main__":
     # Generate and store secret key if it doesn't exist
