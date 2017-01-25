@@ -1,3 +1,4 @@
+// Easily serialize a form into an object
 $.fn.serializeObject = function() {
     var a, o;
     o = {};
@@ -15,6 +16,7 @@ $.fn.serializeObject = function() {
     return o;
 };
 
+// Format a string
 String.prototype.format = function() {
     var args = arguments;
     return this.replace(/{(\d+)}/g, function(match, number) {
@@ -25,6 +27,7 @@ String.prototype.format = function() {
     });
 };
 
+// Used for calling the backend
 var apiCall = function(method, url, data, success) {
     $.ajax({
         "type": method,
@@ -33,11 +36,12 @@ var apiCall = function(method, url, data, success) {
         "url": url
     }).done(function(result) {
         success(result);
-        setTimeout(function() {
-            if (result.redirect) {
+        // Redirect after one second
+        if (result.redirect) {
+            setTimeout(function() {
                 window.location.href = result.redirect;
-            }
-        }, 1000);
+            }, 1000);
+        }
     }).fail(function() {
         $.notify("Error contacting the server.");
     });
@@ -120,6 +124,7 @@ var recipeTemplate = `
 </div>
 `;
 
+// Render recipe on the page
 var addRecipe = function(recipe) {
     $("#recipes").append(recipeTemplate.format(
         recipe["image"],
@@ -174,6 +179,7 @@ var locationTemplate = `
 </div>
 `;
 
+// Render a location on the page
 var addLocation = function(l) {
     $("#locations").append(locationTemplate.format(
         l["name"],

@@ -13,8 +13,6 @@ def authenticate(username, password):
     message = ""
 
     if result:
-        print password
-        print result[0]
         if result[0] == password:
             success = True
             message = "Success!"
