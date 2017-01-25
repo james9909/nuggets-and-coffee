@@ -22,12 +22,10 @@ def api_wrapper(f):
         return response
     return wrapper
 
-def login_required(route):
-    def decorator(f):
-        @wraps(f)
-        def wrapper(*args, **kwargs):
-            if "username" not in session:
-                return redirect("/login")
-            return f(*args, **kwargs)
-        return wrapper
-    return decorator
+def login_required(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        if "username" not in session:
+            return redirect("/login")
+        return f(*args, **kwargs)
+    return wrapper
