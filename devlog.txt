@@ -50,6 +50,28 @@ Started integrating forum frontend and backend
 jiaqiG -- 2017-01-19 14:00
 Added error checking for the foursquare api
 
-sharonL - 2017-01-23 19:50
+sharonL -- 2017-01-23 19:50
 Added more components to the recipes page + displays
 Fixed the routing to coffee and nuggets favorites
+
+sharonL -- 2017-01-24 17:05
+Finished recipe search functionality
+
+jordanY -- 2017-01-24 22:28
+Stylized posts
+
+jamesW -- 2017-01-25 01:34
+Added popup for choosing nugget/coffee preference
+
+jiaqiG -- 2017-01-25 04:23
+Stylized login/registration pages
+Stylized main page
+
+sharonL -- 2017-01-25 06:38
+Stylized recipe page
+Added youtube video to the README
+
+jamesW -- 2017-01-25 9:00
+Updated backend routes to follow a REST-like structure
+Added ajax to load recipes and locations
+Cleaned up code
