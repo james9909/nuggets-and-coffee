@@ -109,25 +109,28 @@ def main_coffee():
 
 @app.route("/Nlocation", methods=["GET", "POST"])
 def Nlocation():
-    naddress = ""
-    spots = {}
-    a = ""
-    name = ""
-    works = True
-    if request.method == "POST":
-        a = request.form["address"]
-        for i in a:
-            if i == " ":
-                naddress+="%20"
-                name+="-"
-            else:
-                naddress+=i
-                name+=i
-        try:
-            spots = foursq(getlatlng(a)[0],getlatlng(a)[1],"nugget")
-        except:
-            works = False
-    return render_template("Nlocation.html", name = name, naddress=naddress, spots=spots, works=works)
+    if "username" in session:
+        naddress = ""
+        spots = {}
+        a = ""
+        name = ""
+        works = True
+        if request.method == "POST":
+            a = request.form["address"]
+            for i in a:
+                if i == " ":
+                    naddress+="%20"
+                    name+="-"
+                else:
+                    naddress+=i
+                    name+=i
+            try:
+                spots = foursq(getlatlng(a)[0],getlatlng(a)[1],"nugget")
+            except:
+                works = False
+        return render_template("Nlocation.html", name = name, naddress=naddress, spots=spots, works=works)
+    else:
+        return redirect(url_for("login"))
 
 @app.route("/Clocation", methods=["GET", "POST"])
 def Clocation():
@@ -184,7 +187,11 @@ def show_recipes():
             r_images = utils.apifunctions.get_image(utils.apifunctions.get_recipes(type_r))
             r_titles = utils.apifunctions.get_titles(utils.apifunctions.get_recipes(type_r))
             r_urls = utils.apifunctions.get_source(utils.apifunctions.get_recipes(type_r))
-            return render_template("recipes.html", recipe_images = r_images, recipe_titles = r_titles, recipe_urls = r_urls, recipe_len = len(r_images), posted="true", valueq=type_r)
+            f_urls = utils.apifunctions.get_f2f(utils.apifunctions.get_recipes(type_r))
+            r_rank = utils.apifunctions.get_rank(utils.apifunctions.get_recipes(type_r)) 
+            p_ub = utils.apifunctions.get_pub(utils.apifunctions.get_recipes(type_r)) 
+            p_url = utils.apifunctions.get_puburl(utils.apifunctions.get_recipes(type_r)) 
+            return render_template("recipes.html", recipe_images = r_images, recipe_titles = r_titles, recipe_urls = r_urls, recipe_len = len(r_images), f2f_urls = f_urls,rankings = r_rank, posted="true", valueq=type_r, pubs = p_ub, puburls = p_url)
 
         else:
             return render_template("recipes.html", posted = "false", valueq="Coffee and Nuggets")

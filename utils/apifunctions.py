@@ -9,12 +9,14 @@ def getlatlng(address):
     return g.latlng
 
 def foursq(lat, lng, NC):
-    client = foursquare.Foursquare(client_id=config.keys["FOURSQUARE_CLIENT_ID"], client_secret=config.keys["FOURSQUARE_CLIENT_SECRET"])
+    client = foursquare.Foursquare(client_id=config.keys["IVAQCEMVQ3OR00SDOCEZR4AQ5KEQXXRWKQYRAHLIVM50QWKK"], client_secret=config.keys["JGOJZECQYXHNPVSIH4WK2N5HTNECAJAWFL3RF2E5J03IZRNL"])
     if NC=="nugget":
         L = client.venues.search(params={'query': 'chicken nuggets', 'll': str(lat)+','+str(lng), 'radius': '1000'})
     else:
         L = client.venues.search(params={'query': 'coffee', 'll': str(lat)+','+str(lng), 'radius': '1000'})
-    #print L["venues"][8]["contact"]["formattedPhone"]
+#    print L["venues"][8]["contact"]["formattedPhone"]
+ #   print("Made it here!")
+
     locations = {}
     for i in L["venues"]:
         coords = []
@@ -36,6 +38,8 @@ def foursq(lat, lng, NC):
         locations[i["name"]] = coords
     print locations
     return locations
+
+#print(foursq(100,100,"nugget"))
 
 # RECIPES
 
@@ -72,8 +76,21 @@ def get_image(recipes):
 def get_rank(recipes):
     titles = {}
     for i in range(len(recipes)):
-        titles[i] = recipes[i]['social_rank'].encode('utf-8')
+        titles[i] = recipes[i]['social_rank']
     return titles
+
+def get_pub(recipes):
+    titles = {}
+    for i in range(len(recipes)):
+        titles[i] = recipes[i]['publisher'].encode('utf-8')
+    return titles
+
+def get_puburl(recipes):
+    titles = {}
+    for i in range(len(recipes)):
+        titles[i] = recipes[i]['publisher_url'].encode('utf-8')
+    return titles
+
 
 #print(get_titles(get_recipes('coffee')))
 #print(get_image(get_recipes('coffee')))
