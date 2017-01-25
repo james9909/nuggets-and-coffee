@@ -3,23 +3,24 @@ import random
 from flask import Flask, render_template, session, redirect, url_for
 
 import api
+from decorators import login_required
 from utils import accountManager, config, db_builder, postManager
 
 app = Flask(__name__)
 app.register_blueprint(api.api, url_prefix="/api")
 
 @app.route("/")
+@login_required
 def index():
-    if "username" in session:
-        name = session["username"]
-        _type=accountManager.get_type(name)[0]
-        if _type == "coffee":
-            return render_template("mainCoffee.html")
-        elif _type == "nuggets":
-            return render_template("mainNuggets.html")
-        else:
-            return render_template("main.html")
-    return redirect(url_for("login"))
+    name = session["username"]
+    _type=accountManager.get_type(name)[0]
+    if _type == "coffee":
+        return render_template("mainCoffee.html")
+    elif _type == "nuggets":
+        return render_template("mainNuggets.html")
+    else:
+        # User hasn't set their preference yet
+        return render_template("main.html")
 
 @app.route("/login")
 def login():
@@ -56,31 +57,27 @@ def create_account():
     return render_template("register.html", nc=nc)
 
 @app.route("/favorites")
+@login_required
 def fav_page():
-    if "username" in session:
-        return render_template("main.html", type=accountManager.get_type(session["username"][0]))
-    else:
-        return redirect(url_for("login"))
+    return render_template("main.html", type=accountManager.get_type(session["username"][0]))
 
 @app.route("/mainNuggets")
+@login_required
 def main_nug():
-    if "username" in session:
-        return render_template("mainNuggets.html")
-    else:
-        return redirect(url_for("login"))
+    return render_template("mainNuggets.html")
 
 @app.route("/mainCoffee")
+@login_required
 def main_coffee():
-    if "username" in session:
-        return render_template("mainCoffee.html")
-    else:
-        return redirect(url_for("login"))
+    return render_template("mainCoffee.html")
 
 @app.route("/Nlocation")
+@login_required
 def Nlocation():
     return render_template("Nlocation.html")
 
 @app.route("/Clocation")
+@login_required
 def Clocation():
     return render_template("Clocation.html")
 
@@ -97,6 +94,7 @@ def forum(postid=None):
     return render_template("post.html", postinfo=postinfo, replies=replies)
 
 @app.route("/createPost")
+@login_required
 def createPost():
     return render_template("createPost.html")
 

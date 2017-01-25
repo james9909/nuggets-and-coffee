@@ -13,7 +13,7 @@ def api_wrapper(f):
         response = 200
         try:
             web_result = f(*args, **kwargs)
-        except Exception as error:
+        except Exception:
             traceback.print_exc()
             web_result = { "success": 0, "message": "Something went wrong!"}
         result = (json.dumps(web_result), response, response_header)
@@ -22,12 +22,12 @@ def api_wrapper(f):
         return response
     return wrapper
 
-def redirect_if_not_logged_in(route):
+def login_required(route):
     def decorator(f):
         @wraps(f)
         def wrapper(*args, **kwargs):
             if "username" not in session:
-                return redirect(route)
+                return redirect("/login")
             return f(*args, **kwargs)
         return wrapper
     return decorator
