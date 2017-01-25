@@ -1,6 +1,7 @@
 import hashlib
 import os
 import utils
+import random
 from flask import Flask, jsonify, render_template, session, request, redirect, url_for
 from itertools import count, groupby
 from utils import postManager, accountManager
@@ -18,6 +19,16 @@ def index():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    with open('pics.txt', 'r') as myfile:
+        data=myfile.read().replace("\n", "").split(",")
+    nc = []
+    for i in range(0, 12):
+        temp = random.choice(data)
+        nc.append(temp)
+        try:
+            data.remove(temp+",")
+        except:
+            data.remove(temp)
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
@@ -36,7 +47,7 @@ def login():
         return jsonify({"success": success, "message": message})
 
 
-    return render_template("login.html", action="login")
+    return render_template("login.html", action="login", nc=nc)
 
 @app.route("/logout")
 def logout():
@@ -45,6 +56,16 @@ def logout():
 
 @app.route("/register", methods=["GET", "POST"])
 def create_account():
+    with open('pics.txt', 'r') as myfile:
+        data=myfile.read().replace("\n", "").split(",")
+    nc = []
+    for i in range(0, 12):
+        temp = random.choice(data)
+        nc.append(temp)
+        try:
+            data.remove(temp+",")
+        except:
+            data.remove(temp)
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
@@ -60,7 +81,7 @@ def create_account():
 
         return jsonify(response)
 
-    return render_template("login.html", action="register")
+    return render_template("login.html", nc=nc, action="register")
 
 @app.route("/favorites")
 def fav_page():
