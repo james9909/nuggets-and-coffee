@@ -48,34 +48,35 @@ def get_recipes(query):
 def get_titles(recipes):
     titles = {}
     for i in range(len(recipes)):
-        titles[i] = str(recipes[i]['title'])
+        titles[i] = recipes[i]['title'].encode('utf-8')
     return titles
 
 def get_source(recipes):
     sources = {}
     for i in range(len(recipes)):
-        sources[i] = str(recipes[i]['source_url'])
+        sources[i] = recipes[i]['source_url'].encode('utf-8')
     return sources
 
 def get_f2f(recipes):
     titles = {}
     for i in range(len(recipes)):
-        titles[i] = str(recipes[i]['f2f_url'])
+        titles[i] = recipes[i]['f2f_url'].encode('utf-8')
     return titles
 
 def get_image(recipes):
     titles = {}
     for i in range(len(recipes)):
-        titles[i] = str(recipes[i]['image_url'])
+        titles[i] = recipes[i]['image_url'].encode('utf-8')
     return titles
 
 def get_rank(recipes):
     titles = {}
     for i in range(len(recipes)):
-        titles[i] = str(recipes[i]['social_rank'])
+        titles[i] = recipes[i]['social_rank'].encode('utf-8')
     return titles
 
-#print(get_source(get_recipes('coffee recipe')))
+#print(get_titles(get_recipes('coffee')))
+#print(get_image(get_recipes('coffee')))
 
 if __name__ == "__main__":
     config.load_keys()

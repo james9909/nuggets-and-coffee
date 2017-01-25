@@ -29,10 +29,12 @@ def login():
         if success:
             print("login success!")
             session["username"] = username
-        return jsonify({"success": success, "message": message})
 
         else:
             print("login failed")
+
+        return jsonify({"success": success, "message": message})
+
 
     return render_template("login.html", action="login")
 
@@ -62,15 +64,24 @@ def create_account():
 
 @app.route("/favorites")
 def fav_page():
-    return render_template("mainNuggets.html")
+    if "username" in session:
+        return render_template("main.html", type=utils.accountManager.get_type(session["username"][0]))
+    else:
+        return redirect(url_for("login"))
 
 @app.route("/mainNuggets")
-def mainNuggets():
-    return render_template("mainNuggets.html")
+def main_nug():
+    if "username" in session:        
+        return render_template("mainNuggets.html")
+    else:
+        return redirect(url_for("login"))
 
 @app.route("/mainCoffee")
-def mainCoffee():
-    return render_template("mainCoffee.html")
+def main_coffee():
+    if "username" in session:        
+        return render_template("mainCoffee.html")
+    else:
+        return redirect(url_for("login"))
 
 @app.route("/Nlocation", methods=["GET", "POST"])
 def Nlocation():
@@ -141,13 +152,20 @@ def createPost():
         postid = postManager.createPost(username, title, content)
     return redirect("/forum/" + str(postid))
 
-@app.route("/recipes")
+@app.route("/recipes", methods=["GET", "POST"])
 def show_recipes():
-    type_r = "coffee"#utils.accountManager.get_type(session["username"])
-    r_images = utils.apifunctions.get_image(utils.apifunctions.get_recipes(type_r))
-    r_titles = utils.apifunctions.get_titles(utils.apifunctions.get_recipes(type_r))
-    r_urls = utils.apifunctions.get_image(utils.apifunctions.get_recipes(type_r))
-    return render_template("recipes.html", recipe_images = r_images, recipe_titles = r_titles, recipe_urls = r_urls, recipe_len = len(r_images), logged_status="true")
+    if "username" in session:
+        if request.method == "POST":
+            type_r = request.form["food_query"]
+            r_images = utils.apifunctions.get_image(utils.apifunctions.get_recipes(type_r))
+            r_titles = utils.apifunctions.get_titles(utils.apifunctions.get_recipes(type_r))
+            r_urls = utils.apifunctions.get_source(utils.apifunctions.get_recipes(type_r))
+            return render_template("recipes.html", recipe_images = r_images, recipe_titles = r_titles, recipe_urls = r_urls, recipe_len = len(r_images), posted="true")
+        
+        else:
+            return render_template("recipes.html", posted = "false")
+    else:
+        return redirect(url_for("login"))
 
 @app.route("/reply", methods=["POST"])
 def reply():

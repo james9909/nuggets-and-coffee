@@ -49,3 +49,7 @@ Started integrating forum frontend and backend
 
 jiaqiG -- 2017-01-19 14:00
 Added error checking for the foursquare api
+
+sharonL - 2017-01-23 19:50
+Added more components to the recipes page + displays
+Fixed the routing to coffee and nuggets favorites
