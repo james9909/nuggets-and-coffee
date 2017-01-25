@@ -13,8 +13,11 @@ app = Flask(__name__)
 def index():
     if "username" in session:
         name = session["username"]
-        return render_template("main.html", type=utils.accountManager.get_type(name)[0])
-        # return render_template('mainCoffee.html')
+        type=utils.accountManager.get_type(name)[0]
+        if (type == "coffee"):
+            return render_template("mainCoffee.html")
+        elif (type == "nuggets"):
+            return render_template("mainNuggets.html")
     return redirect(url_for("login"))
 
 @app.route("/login", methods=["GET", "POST"])

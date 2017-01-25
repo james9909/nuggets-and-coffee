@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
 {% block head %}
+<style>
+.center-pills { display: inline-block; }
+</style>
+
 <div id="type-modal" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
@@ -30,8 +34,8 @@ $("#type-modal").on("hidden.bs.modal", function () {
 });
 </script>
 {% endif %}
-
-<ul class="nav nav-pills">
+<center>
+<ul class="nav nav-pills center-pills">
     {% if type == "nuggets" %}
     <li role="presentation" class="active"><a href="/mainNuggets">Nuggets</a></li>
     {% else %}
@@ -44,18 +48,21 @@ $("#type-modal").on("hidden.bs.modal", function () {
     <li role="presentation"><a href="/mainCoffee">Coffee</a></li>
     {% endif %}
 </ul>
+</center>
 {% endblock %}
 
 {% block body %}
+<center>
 {% if type is equalto "nuggets" %}
-<a href="/Nlocation">Find a nugget venue!</a>
-
+<a href="/Nlocation" class="btn btn-primary btn-primary"><span class="glyphicon glyphicon-flag"></span> Find your closest nuggets!</a>
+<br>
+<br>
+<a href="#" class="btn btn-primary btn-info"><span class="glyphicon glyphicon-pushpin"></span> Find awesome nugget recipes!</a>
 {% else %}
 
-<a href="/Clocation">Find a coffee venue!</a>
-
+<a href="/Clocation" class="btn btn-primary btn-primary"><span class="glyphicon glyphicon-flag"></span> Find your closest coffee!</a>
 {% endif %}
-
+</center>
 {% endblock %}
 
 {% block things %}
