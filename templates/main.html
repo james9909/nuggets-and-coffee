@@ -8,7 +8,7 @@
     <li role="presentation"><a href="/mainNuggets">Nuggets</a></li>
     {% endif %}
 
-    {% if type=="coffee" %}
+    {% if type == "coffee" %}
     <li role="presentation" class="active"><a href="/mainCoffee">Coffee</a></li>
     {% else %}
     <li role="presentation"><a href="/mainCoffee">Coffee</a></li>
@@ -17,10 +17,14 @@
 {% endblock %}
 
 {% block body %}
-
+{% if type is equalto "nuggets" %}
 <a href="/Nlocation">Find a nugget venue!</a>
-<br>
+
+{% else %}
+
 <a href="/Clocation">Find a coffee venue!</a>
+
+{% endif %}
 
 {% endblock %}
 
