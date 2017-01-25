@@ -97,3 +97,17 @@ def recipes():
         }
         return_recipes.append(recipe)
     return {"success": 1, "message": "Recipes found!", "recipes": return_recipes}
+
+@api.route("/locations", methods=["POST"])
+@api_wrapper
+def locations():
+    _type = request.form["type"]
+    address = request.form["address"]
+    coords = apifunctions.getlatlng(address)
+    if len(coords) != 2:
+        return {"success": 0, "message": "No locations found."}
+
+    spots = apifunctions.foursq(coords[0], coords[1], _type)
+    if len(spots) > 0:
+        return {"success": 1, "message": "Locations found!", "locations": spots}
+    return {"success": 0, "message": "No locations found."}

@@ -157,6 +157,53 @@ var getRecipes = function(e) {
             $.notify(result.message, "error");
         }
     });
+};
+
+var locationTemplate = `
+<div class="row">
+    <h3>{0}</h3>
+    <br>
+    <div class="col-sm-7">
+        <iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDUPAj0czfKLMWzZyO0brrORVvi4YH1f30&q={1},{2}" allowfullscreen></iframe>
+    </div>
+
+    <div class="col-sm-5">
+        <b>Address</b>: {3}<br>
+        <b>Website</b>: <a href="{4}">{5}</a><br>
+        <b>Phone</b>: <u>{6}</u><br>
+        <b>Favorite</b>
+    </div>
+</div>
+`;
+
+var addLocation = function(l) {
+    $("#locations").append(locationTemplate.format(
+        l["name"],
+        l["lat"],
+        l["lng"],
+        l["address"],
+        l["url"] == "N/A" ? "#" : l["name"],
+        l["url"],
+        l["phone"]
+    ));
+    $("#locations").append("<br>");
+};
+
+var getLocations = function(e) {
+    e.preventDefault();
+    var data = $(this).serializeObject();
+    apiCall("POST", "/api/locations", data, function(result) {
+        if (result.success) {
+            var locations = result.locations;
+            $("#locations").html("");
+            $.notify(result.message, "success");
+            for (var i = 0; i < locations.length; i++) {
+                addLocation(locations[i]);
+            }
+        } else {
+            $.notify(result.message, "error");
+        }
+    });
 }
 
 $(document).ready(function(){
@@ -167,4 +214,5 @@ $(document).ready(function(){
     $("#new-post-form").submit(createPost);
     $("#reply-form").submit(reply);
     $("#recipe-form").submit(getRecipes);
+    $("#location-form").submit(getLocations);
 });

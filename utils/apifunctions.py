@@ -9,37 +9,24 @@ def getlatlng(address):
     return g.latlng
 
 def foursq(lat, lng, NC):
-    client = foursquare.Foursquare(client_id=config.keys["IVAQCEMVQ3OR00SDOCEZR4AQ5KEQXXRWKQYRAHLIVM50QWKK"], client_secret=config.keys["JGOJZECQYXHNPVSIH4WK2N5HTNECAJAWFL3RF2E5J03IZRNL"])
+    client = foursquare.Foursquare(client_id=config.keys["FOURSQUARE_CLIENT_ID"], client_secret=config.keys["FOURSQUARE_CLIENT_SECRET"])
     if NC=="nugget":
         L = client.venues.search(params={'query': 'chicken nuggets', 'll': str(lat)+','+str(lng), 'radius': '1000'})
     else:
         L = client.venues.search(params={'query': 'coffee', 'll': str(lat)+','+str(lng), 'radius': '1000'})
-#    print L["venues"][8]["contact"]["formattedPhone"]
- #   print("Made it here!")
 
-    locations = {}
+    locations = []
     for i in L["venues"]:
-        coords = []
-        coords.append(str(i["location"]["labeledLatLngs"][0]["lat"]))
-        coords.append(str(i["location"]["labeledLatLngs"][0]["lng"]))
-        address = ""
-        for j in i["location"]["formattedAddress"]:
-            address += j + ", "
-        #coords.append(i["location"]["formattedAddress"])
-        coords.append(address[:-2])
-        try: #because not every location has a number or website avail
-            coords.append(str(i["url"]))
-        except:
-            coords.append("nope")
-        try:
-            coords.append(str(i["contact"]["formattedPhone"]))
-        except:
-            coords.append("nope")
-        locations[i["name"]] = coords
-    print locations
+        location = {
+            "name": i["name"],
+            "lat": i["location"]["labeledLatLngs"][0]["lat"],
+            "lng": i["location"]["labeledLatLngs"][0]["lng"],
+            "address": ", ".join(i["location"]["formattedAddress"])[:-2],
+            "url": i.get("url", "N/A"),
+            "phone": i["contact"].get("formattedPhone", "N/A")
+        }
+        locations.append(location)
     return locations
-
-#print(foursq(100,100,"nugget"))
 
 # RECIPES
 
