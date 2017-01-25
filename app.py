@@ -181,10 +181,10 @@ def show_recipes():
             r_images = utils.apifunctions.get_image(utils.apifunctions.get_recipes(type_r))
             r_titles = utils.apifunctions.get_titles(utils.apifunctions.get_recipes(type_r))
             r_urls = utils.apifunctions.get_source(utils.apifunctions.get_recipes(type_r))
-            return render_template("recipes.html", recipe_images = r_images, recipe_titles = r_titles, recipe_urls = r_urls, recipe_len = len(r_images), posted="true")
+            return render_template("recipes.html", recipe_images = r_images, recipe_titles = r_titles, recipe_urls = r_urls, recipe_len = len(r_images), posted="true", valueq=type_r)
 
         else:
-            return render_template("recipes.html", posted = "false")
+            return render_template("recipes.html", posted = "false", valueq="Coffee and Nuggets")
     else:
         return redirect(url_for("login"))
 
