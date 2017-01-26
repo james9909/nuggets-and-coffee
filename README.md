@@ -4,7 +4,7 @@
 
 ## Introduction
 
-Our demo video is viewable at: https://youtu.be/3xrn0bD6Pco
+[Watch our demo here](https://youtu.be/3xrn0bD6Pco)
 
 Team Members
 - James Wang - Project Manager
@@ -34,3 +34,10 @@ In the root directory of the repository, run:
 $ python app.py
 ```
 Open [localhost:5000](http://localhost:5000) in a browser
+
+## APIs
+
+* Foursquare: Provides a list of places that sell a certain food item. Used for finding the nearest places to buy coffee/chicken nuggets
+* Google Maps: Allows us to render a map at any given coordinates. Used for displaying locations.
+* Food2Fork: Allows us to search for recipes containing a given ingredient. Used for our recipe search functionality.
+* Geocoder: Allows us to get the latitude and longitude of a given address. Used in conjunction with the Google Maps api to display locations.
