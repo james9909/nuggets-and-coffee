@@ -17,7 +17,7 @@ Install all required python libraries by running:
 
 `$ pip install -r requirements.txt`
 
-API keys must be placed in `utils/.keys`. Each key needs to be placed on a new line, following the format `KEY=VALUE`. No quotes are necessary
+API keys must be placed in a file called `.keys`, located in the root directory of the project. Each key needs to be placed on a new line, following the format `KEY=VALUE`. No quotes are necessary
 
 Example:
 ```
